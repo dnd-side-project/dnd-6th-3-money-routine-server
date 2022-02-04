@@ -1,0 +1,40 @@
+package com.example.dnd6th3moneyroutineserver.goal;
+
+import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
+import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/goal")
+@RequiredArgsConstructor
+public class GoalController {
+
+    /**
+     * 새 목표 생성
+     */
+    @PostMapping
+    public void createGoal(@RequestBody GoalCreateDto goalCreateDto) {
+
+    }
+
+    /**
+     * 메인 화면에서 목표 정보를 반환
+     */
+    @GetMapping("/{userId}")
+    public List<GoalDetailDto> getGoalList(@RequestParam Long userId) {
+        return null;
+    }
+
+    /**
+     * 이전 달의 목표를 그대로 이어받아서 진행
+     */
+    @PostMapping("/continue")
+    public Long continueGoal(@RequestBody Long userId) {
+        return 1L;
+    }
+
+
+}
