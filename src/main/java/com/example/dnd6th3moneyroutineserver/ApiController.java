@@ -6,16 +6,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
 public class ApiController {
 
-    @GetMapping("/hello")
+    @GetMapping("/")
     public String HelloWorld(){
         return "Hello World!";
     }
 
-    @GetMapping("/hello2")
-    public String Hello(@RequestParam String param) {
-        return param;
-    }
 }
