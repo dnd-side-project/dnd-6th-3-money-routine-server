@@ -24,7 +24,7 @@ public class GoalController {
      * 메인 화면에서 목표 정보를 반환
      */
     @GetMapping("/{userId}")
-    public List<GoalDetailDto> getGoalList(@RequestParam Long userId) {
+    public List<GoalDetailDto> getGoalList(@PathVariable Long userId) {
         return null;
     }
 

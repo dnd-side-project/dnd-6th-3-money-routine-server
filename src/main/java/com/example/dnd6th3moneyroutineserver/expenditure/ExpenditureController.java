@@ -27,7 +27,7 @@ public class ExpenditureController {
      * @Param UserId, Start Date
      */
     @GetMapping("/statistics/{startDate}/{endDate}/{userId}")
-    public ExpenditureStatisticsDto getExpenditureStatistics(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam Long userId) {
+    public ExpenditureStatisticsDto getExpenditureStatistics(@PathVariable Date startDate, @PathVariable Date endDate, @PathVariable Long userId) {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class ExpenditureController {
      * 막대 그래프 영역
      */
     @GetMapping("/weekly/{userId}")
-    public List<Integer> getWeeklyTendency(@RequestParam Long userId) {
+    public List<Integer> getWeeklyTendency(@PathVariable Long userId) {
         return null;
     }
 
@@ -45,7 +45,7 @@ public class ExpenditureController {
      * 막대 그래프 영역
      */
     @GetMapping("/monthly/{userId}")
-    public List<Integer> getMonthlyTendency(@RequestParam Long userId) {
+    public List<Integer> getMonthlyTendency(@PathVariable Long userId) {
         return null;
     }
 }
