@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.category;
+package com.example.dnd6th3moneyroutineserver.customCategory;
 
 import com.example.dnd6th3moneyroutineserver.user.User;
 

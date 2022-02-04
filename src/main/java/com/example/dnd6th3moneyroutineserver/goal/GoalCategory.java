@@ -1,8 +1,7 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.category.Category;
-import com.example.dnd6th3moneyroutineserver.category.CustomCategory;
-import com.example.dnd6th3moneyroutineserver.goal.Goal;
+import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 
 import javax.persistence.*;
 
