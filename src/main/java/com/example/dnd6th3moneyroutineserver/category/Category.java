@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.entity;
+package com.example.dnd6th3moneyroutineserver.category;
 
 import javax.persistence.*;
 

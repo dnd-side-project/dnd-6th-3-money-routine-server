@@ -1,6 +1,6 @@
-package com.example.dnd6th3moneyroutineserver.repository;
+package com.example.dnd6th3moneyroutineserver.goal;
 
-import com.example.dnd6th3moneyroutineserver.entity.Goal;
+import com.example.dnd6th3moneyroutineserver.goal.Goal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {

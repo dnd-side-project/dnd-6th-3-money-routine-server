@@ -1,6 +1,8 @@
-package com.example.dnd6th3moneyroutineserver.entity;
+package com.example.dnd6th3moneyroutineserver.goal;
 
-import org.springframework.lang.Nullable;
+import com.example.dnd6th3moneyroutineserver.category.Category;
+import com.example.dnd6th3moneyroutineserver.category.CustomCategory;
+import com.example.dnd6th3moneyroutineserver.goal.Goal;
 
 import javax.persistence.*;
 
