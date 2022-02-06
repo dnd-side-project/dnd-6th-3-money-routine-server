@@ -12,12 +12,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GoalController {
 
+    private final GoalService goalService;
+
     /**
      * 새 목표 생성
      */
     @PostMapping
-    public void createGoal(@RequestBody GoalCreateDto goalCreateDto) {
-
+    public Long createGoal(@RequestBody GoalCreateDto goalCreateDto) {
+        return goalService.addGoal(goalCreateDto);
     }
 
     /**
