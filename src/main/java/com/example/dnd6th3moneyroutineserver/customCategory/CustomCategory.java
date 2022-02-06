@@ -1,10 +1,14 @@
 package com.example.dnd6th3moneyroutineserver.customCategory;
 
 import com.example.dnd6th3moneyroutineserver.user.User;
+import lombok.Builder;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
+@Builder
+@Getter
 public class CustomCategory {
 
     @Id @GeneratedValue
