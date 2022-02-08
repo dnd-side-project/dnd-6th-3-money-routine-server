@@ -1,13 +1,10 @@
 package com.example.dnd6th3moneyroutineserver.expenditure.dto;
 
-import com.example.dnd6th3moneyroutineserver.expenditure.Emotion;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@Builder
 public class ExpenditureCreateDto {
 
     private Date date;
