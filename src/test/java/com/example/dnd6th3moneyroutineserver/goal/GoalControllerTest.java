@@ -81,7 +81,7 @@ class GoalControllerTest {
                 .build());
 
         // when
-        Long goalId = goalController.createGoal(
+        goalController.createGoal(
                 GoalCreateDto.builder()
                         .total_budget(1000000)
                         .userId(user.getId())

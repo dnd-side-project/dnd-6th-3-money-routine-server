@@ -1,8 +1,14 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
+import com.example.dnd6th3moneyroutineserver.common.CustomResponse;
+import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
+import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +24,9 @@ public class GoalController {
      * 새 목표 생성
      */
     @PostMapping
-    public Long createGoal(@RequestBody GoalCreateDto goalCreateDto) {
-        return goalService.addGoal(goalCreateDto);
+    @ApiOperation(value = "목표생성", notes = "목표 + 목표 카테고리 생성.")
+    public ResponseEntity createGoal(@RequestBody GoalCreateDto goalCreateDto) {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.CREATE_GOAL_SUCCESS, goalService.addGoal(goalCreateDto)), HttpStatus.OK);
     }
 
     /**
