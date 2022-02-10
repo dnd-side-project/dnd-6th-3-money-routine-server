@@ -5,12 +5,16 @@ import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,10 +35,12 @@ public class GoalController {
 
     /**
      * 메인 화면에서 목표 정보를 반환
+     * @Param userId, date
      */
-    @GetMapping("/{userId}")
-    public List<GoalDetailDto> getGoalList(@PathVariable Long userId) {
-        return null;
+    @GetMapping("/info")
+    @ApiOperation(value = "목표정보", notes = "20XX년 XX월의 목표 정보 반환")
+    public ResponseEntity getGoalList(@RequestParam @NotNull Long userId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate date) {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.GOAL_INFO_SUCCESS, goalService.infoWithDate(userId, date)), HttpStatus.OK);
     }
 
     /**

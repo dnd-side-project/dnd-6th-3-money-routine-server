@@ -1,8 +1,7 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.user.User;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,7 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Getter
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Goal {
 
     @Id @GeneratedValue
