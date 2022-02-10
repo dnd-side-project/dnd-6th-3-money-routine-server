@@ -19,6 +19,8 @@ public class ResponseMessage {
     // Goal
     public static final String CREATE_GOAL_SUCCESS = "목표 생성 성공";
     public static final String CREATE_GOAL_FAIL = "목표 생성 실패";
+    public static final String GOAL_INFO_SUCCESS = "목표 정보 조회 성공";
+    public static final String GOAL_INFO_FAIL = "목표 정보 조회 실패";
 
 
     // Category, Custom Category
