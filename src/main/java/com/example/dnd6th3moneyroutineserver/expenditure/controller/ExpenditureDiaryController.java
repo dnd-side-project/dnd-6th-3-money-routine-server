@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.expenditure;
+package com.example.dnd6th3moneyroutineserver.expenditure.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
