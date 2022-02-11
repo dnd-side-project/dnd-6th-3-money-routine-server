@@ -1,10 +1,16 @@
 package com.example.dnd6th3moneyroutineserver.category;
 
 import com.example.dnd6th3moneyroutineserver.category.dto.CategoryDto;
+import com.example.dnd6th3moneyroutineserver.common.CustomResponse;
+import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
+import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryRepository;
 import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,7 +29,8 @@ public class CategoryController {
      * Category + Custom Category 목록 반환
      */
     @GetMapping("/{userId}")
-    public List<CategoryDto> getCategoryList(@PathVariable Long userId) {
+    @ApiOperation(value = "유저 카테고리 리스트", notes = "유저의 카테고리 리스트를 반환합니다.")
+    public ResponseEntity getCategoryList(@PathVariable Long userId) {
         List<Category> categoryList = categoryRepository.findAll();
         List<CustomCategory> customCategoryList = customCategoryRepository.findByUserId(userId);
         List<CategoryDto> userCategoryList = new ArrayList<>();
@@ -44,7 +51,8 @@ public class CategoryController {
                     .build());
         }
 
-        return userCategoryList;
+        return new ResponseEntity(CustomResponse
+                .response(StatusCode.OK, ResponseMessage.CATEGORY_LIST_SUCCESS, userCategoryList), HttpStatus.OK);
     }
 
 

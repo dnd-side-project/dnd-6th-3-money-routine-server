@@ -2,12 +2,18 @@ package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.category.Category;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GoalCategory {
 
     @Id @GeneratedValue

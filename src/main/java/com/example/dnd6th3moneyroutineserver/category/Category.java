@@ -6,9 +6,9 @@ import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class Category {
 
     @Id @GeneratedValue
