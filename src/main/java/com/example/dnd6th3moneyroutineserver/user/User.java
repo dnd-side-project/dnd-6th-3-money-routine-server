@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter @Setter
 public class User implements UserDetails {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
     private Long id;
 
