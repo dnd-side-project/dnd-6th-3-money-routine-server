@@ -63,7 +63,75 @@ public class ExpenditureService {
     @Transactional
     public StatisticsResponseDto weeklyStatistics(StatisticsRequestDto statisticsRequestDto) {
 
-        return null;
+        Long userId = userService.currentUser();
+        User user = userRepository.findById(userId).orElseThrow();
+
+        //1. 유저의 goal을 가져온다.
+
+        //2. 유저의 goalCategoryList를 가져온다.
+        List<GoalCategory> goalCategoryList = new ArrayList<>();
+
+        //B.전체 지출 금액
+        Long totalExpense = 0L;
+
+        List<GoalCategoryInfoDto> goalCategoryInfoDtoList = new ArrayList<>();
+
+        //3. 카테고리별로 지출 내역을 조회한다.
+        for (GoalCategory gc : goalCategoryList) {
+
+            CategoryType categoryType = new CategoryType();
+            List<Expenditure> expenditureList;
+            String categoryName = "";
+
+            if (gc.getCategory() != null){
+                categoryType = new CategoryType(gc.getCategory().getId(), false);
+                categoryName = gc.getCategory().getName();
+                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCategory(statisticsRequestDto.getStartDate(), statisticsRequestDto.getEndDate(), userId, gc.getCategory());
+            }
+            else {
+                categoryType = new CategoryType(gc.getCustomCategory().getId(), true);
+                categoryName = gc.getCustomCategory().getName();
+                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(statisticsRequestDto.getStartDate(), statisticsRequestDto.getEndDate(), userId, gc.getCustomCategory());
+            }
+
+            //3-1. 지출 내역을 순회하면서 지출의 합을 구한다.
+            Long categoryExpenseSum = 0L;
+            List<WeeklyExpenditureDetailDto> weeklyExpenditureDetailDtoList= new ArrayList<>();
+            for (Expenditure exp : expenditureList) {
+                WeeklyExpenditureDetailDto wdto = new WeeklyExpenditureDetailDto(exp);
+                weeklyExpenditureDetailDtoList.add(wdto);
+                categoryExpenseSum += wdto.getExpense();
+            }
+
+            GoalCategoryInfoDto goalCategoryInfoDto = GoalCategoryInfoDto.builder()
+                    .categoryType(categoryType)
+                    .categoryName(categoryName)
+                    .expense(categoryExpenseSum)
+                    .weeklyExpenditureDetailDtoList(weeklyExpenditureDetailDtoList)
+                    .build();
+
+            goalCategoryInfoDtoList.add(goalCategoryInfoDto);
+            totalExpense += categoryExpenseSum;
+        }
+
+        for (GoalCategoryInfoDto gci : goalCategoryInfoDtoList) {
+            gci.setPercentage((int)gci.getPercentage()/totalExpense);
+        }
+
+        Comparator<GoalCategoryInfoDto> comparator = new Comparator<GoalCategoryInfoDto>() {
+            @Override
+            public int compare(GoalCategoryInfoDto o1, GoalCategoryInfoDto o2) {
+                return (int) (o1.getExpense() - o2.getExpense());
+            }
+        };
+
+        Collections.sort(goalCategoryInfoDtoList, comparator);
+
+        return StatisticsResponseDto.builder()
+                .topCategory(goalCategoryInfoDtoList.get(0).getCategoryName())
+                .totalExpense(totalExpense)
+                .goalCategoryInfoDtoList(goalCategoryInfoDtoList)
+                .build();
 
         //StatisticsResponseDto
             //A.최다 지출 분야

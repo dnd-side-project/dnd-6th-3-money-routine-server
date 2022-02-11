@@ -20,8 +20,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class WeeklyStatisticsResponseDto {
+public class StatisticsResponseDto {
     private String topCategory;
     private Long totalExpense;
-    private List<WeeklyGoalCategoryInfoDto> weeklyGoalCategoryInfoDtoList;
+    private List<GoalCategoryInfoDto> goalCategoryInfoDtoList;
 }
