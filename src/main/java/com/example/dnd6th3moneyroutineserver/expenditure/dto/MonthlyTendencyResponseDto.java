@@ -1,4 +1,4 @@
 package com.example.dnd6th3moneyroutineserver.expenditure.dto;
 
-public class MonthlyResponseDto {
+public class MonthlyTendencyResponseDto {
 }
