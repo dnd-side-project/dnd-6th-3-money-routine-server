@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class CustomCategoryCreateDto {
     private String name;
     private String detail;
-    private Long userId;
 }

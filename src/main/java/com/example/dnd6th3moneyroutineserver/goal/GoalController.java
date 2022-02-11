@@ -39,8 +39,8 @@ public class GoalController {
      */
     @GetMapping("/info")
     @ApiOperation(value = "목표정보", notes = "20XX년 XX월의 목표 정보 반환")
-    public ResponseEntity getGoalList(@RequestParam @NotNull Long userId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate date) {
-        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.GOAL_INFO_SUCCESS, goalService.infoWithDate(userId, date)), HttpStatus.OK);
+    public ResponseEntity getGoalList(@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate date) {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.GOAL_INFO_SUCCESS, goalService.infoWithDate(date)), HttpStatus.OK);
     }
 
     /**
