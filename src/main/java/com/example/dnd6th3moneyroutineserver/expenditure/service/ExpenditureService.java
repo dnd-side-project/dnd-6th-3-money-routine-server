@@ -49,13 +49,19 @@ public class ExpenditureService {
         if (!expenditureWriteDto.isCustom()) {
             Category category = categoryRepository.getById(expenditureWriteDto.getCategoryId());
             expenditure.setCategory(category);
+
+            //userId, date, category
+            GoalCategory goalCategory = goalCategoryRepository.findByGoalDateAndUserIdAndCategoryId(expenditureWriteDto.getDate().withDayOfMonth(1), userId, category.getId());
+            goalCategory.addExpense(expenditureWriteDto.getExpense().intValue());
         }
         else {
             CustomCategory customCategory = customCategoryRepository.getById(expenditureWriteDto.getCategoryId());
             expenditure.setCustomCategory(customCategory);
+
+            //userId, date, customcategory
+            GoalCategory goalCategory = goalCategoryRepository.findByGoalDateAndUserIdAndCustomCategoryId(expenditureWriteDto.getDate().withDayOfMonth(1), userId, customCategory.getId());
+            goalCategory.addExpense(expenditureWriteDto.getExpense().intValue());
         }
-        
-        //goalCategory에서 expense 증가시켜줘야함
 
         return expenditureRepository.save(expenditure).getId();
     }

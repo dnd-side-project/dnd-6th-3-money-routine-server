@@ -35,4 +35,8 @@ public class GoalCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOM_CATEGORY_ID")
     private CustomCategory customCategory;
+
+    public void addExpense(int expense) {
+        this.totalExpense += expense;
+    }
 }

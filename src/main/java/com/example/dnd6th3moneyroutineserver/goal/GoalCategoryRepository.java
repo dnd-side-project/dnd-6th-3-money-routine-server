@@ -15,4 +15,10 @@ public interface GoalCategoryRepository extends JpaRepository<GoalCategory, Long
 
     @Query(value = "select c from GoalCategory c join c.goal g left join fetch c.category left join fetch c.customCategory where g.startDate =:date and g.user.id =:userId")
     List<GoalCategory> findByGoalDateAndUserId(@Param("date") LocalDate date, @Param("userId") Long userId);
+
+    @Query(value = "select gc from GoalCategory gc join gc.category c join gc.goal g where c.id =:categoryId and g.user.id =:userId and g.startDate =:date")
+    GoalCategory findByGoalDateAndUserIdAndCategoryId(@Param("date") LocalDate date, @Param("userId") Long userId, @Param("categoryId") Long categoryId);
+
+    @Query(value = "select gc from GoalCategory gc join gc.customCategory c join gc.goal g where c.id =:categoryId and g.user.id =:userId and g.startDate =:date")
+    GoalCategory findByGoalDateAndUserIdAndCustomCategoryId(@Param("date") LocalDate date, @Param("userId") Long userId, @Param("categoryId") Long categoryId);
 }
