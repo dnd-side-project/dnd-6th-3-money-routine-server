@@ -10,7 +10,6 @@ import com.example.dnd6th3moneyroutineserver.expenditure.entity.Expenditure;
 import com.example.dnd6th3moneyroutineserver.expenditure.repository.ExpenditureRepository;
 import com.example.dnd6th3moneyroutineserver.goal.GoalCategory;
 import com.example.dnd6th3moneyroutineserver.goal.GoalCategoryRepository;
-import com.example.dnd6th3moneyroutineserver.goal.GoalRepository;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
