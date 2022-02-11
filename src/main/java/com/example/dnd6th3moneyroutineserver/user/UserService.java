@@ -4,6 +4,8 @@ import com.example.dnd6th3moneyroutineserver.security.JwtTokenProvider;
 import com.example.dnd6th3moneyroutineserver.user.dto.AccessTokenDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +40,12 @@ public class UserService {
         }
         String token =  jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
         return new AccessTokenDto(token);
+    }
+
+    @Transactional
+    public Long currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
     }
 }

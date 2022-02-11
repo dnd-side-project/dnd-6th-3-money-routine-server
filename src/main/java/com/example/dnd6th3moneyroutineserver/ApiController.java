@@ -13,4 +13,9 @@ public class ApiController {
         return "Hello World!";
     }
 
+    @GetMapping("/user")
+    public String HelloWorld2(){
+        return "Hello World2!";
+    }
+
 }
