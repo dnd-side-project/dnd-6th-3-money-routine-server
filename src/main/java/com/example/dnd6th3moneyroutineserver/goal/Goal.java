@@ -1,11 +1,16 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
-import com.example.dnd6th3moneyroutineserver.user.User;
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
+@Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Goal {
 
     @Id @GeneratedValue
@@ -14,11 +19,11 @@ public class Goal {
 
     private int totalBudget;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 }
