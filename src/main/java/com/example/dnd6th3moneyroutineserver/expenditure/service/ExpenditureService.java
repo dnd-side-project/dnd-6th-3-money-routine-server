@@ -9,6 +9,7 @@ import com.example.dnd6th3moneyroutineserver.expenditure.entity.CategoryType;
 import com.example.dnd6th3moneyroutineserver.expenditure.entity.Expenditure;
 import com.example.dnd6th3moneyroutineserver.expenditure.repository.ExpenditureRepository;
 import com.example.dnd6th3moneyroutineserver.goal.GoalCategory;
+import com.example.dnd6th3moneyroutineserver.goal.GoalCategoryRepository;
 import com.example.dnd6th3moneyroutineserver.goal.GoalRepository;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -24,7 +26,7 @@ import java.util.*;
 public class ExpenditureService {
 
     private final ExpenditureRepository expenditureRepository;
-    private final GoalRepository goalRepository;
+    private final GoalCategoryRepository goalCategoryRepository;
     private final CategoryRepository categoryRepository;
     private final CustomCategoryRepository customCategoryRepository;
     private final UserService userService;
@@ -69,7 +71,8 @@ public class ExpenditureService {
         //1. 유저의 goal을 가져온다.
 
         //2. 유저의 goalCategoryList를 가져온다.
-        List<GoalCategory> goalCategoryList = new ArrayList<>();
+        List<GoalCategory> goalCategoryList = goalCategoryRepository
+                .findByGoalDateAndUserId(statisticsRequestDto.getStartDate().withDayOfMonth(1), userId);
 
         //B.전체 지출 금액
         Long totalExpense = 0L;
