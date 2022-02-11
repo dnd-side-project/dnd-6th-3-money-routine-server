@@ -9,6 +9,7 @@ import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
 import com.example.dnd6th3moneyroutineserver.user.User;
 import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,12 @@ public class GoalService {
     private final CategoryRepository categoryRepository;
     private final CustomCategoryRepository customCategoryRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public Long addGoal(GoalCreateDto goalCreateDto) {
         // 1. create goal
-        User user = userRepository.findById(goalCreateDto.getUserId()).orElseThrow();
+        User user = userRepository.findById(userService.currentUser()).orElseThrow();
         LocalDate now = LocalDate.now();
         Goal goal = goalRepository.save(
                 Goal.builder()
@@ -47,10 +49,8 @@ public class GoalService {
         List<GoalCategoryCreateDto> goalCategoryCreateDtoList = goalCreateDto.getGoalCategoryCreateDtoList();
         for (GoalCategoryCreateDto goalCategoryCreateDto : goalCategoryCreateDtoList) {
             if (goalCategoryCreateDto.getIsCustom()) {
-                log.info("custom category save" + "category id:" + goalCategoryCreateDto.getCategoryId());
                 saveCustomGoalCategory(goal, goalCategoryCreateDto);
             } else {
-                log.info("category save"+ "category id:" + goalCategoryCreateDto.getCategoryId());
                 saveGoalCategory(goal, goalCategoryCreateDto);
             }
         }
@@ -59,18 +59,17 @@ public class GoalService {
     }
 
     @Transactional
-    public GoalDetailDto infoWithDate(Long userId, LocalDate date) {
+    public GoalDetailDto infoWithDate(LocalDate date) {
         if (date == null) {
             date = LocalDate.now();
         }
 
-        Goal goal = goalRepository.findByStartDateAndUser(date.withDayOfMonth(1), userRepository.findById(userId).orElseThrow());
+        Goal goal = goalRepository.findByStartDateAndUserId(date.withDayOfMonth(1), userService.currentUser());
         List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(goal.getId());
         List<GoalCategoryDetailDto> detailDtoList = new ArrayList<>();
         int remainder = goal.getTotalBudget();
 
         for (GoalCategory goalCategory : goalCategoryList) {
-            log.info("search");
             if (goalCategory.getCategory() == null) {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
                         .name(goalCategory.getCustomCategory().getName())

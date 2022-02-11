@@ -7,6 +7,7 @@ import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryRepository;
 import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,15 @@ public class CategoryController {
     private final CustomCategoryRepository customCategoryRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     /**
      * Category + Custom Category 목록 반환
      */
-    @GetMapping("/{userId}")
+    @GetMapping("")
     @ApiOperation(value = "유저 카테고리 리스트", notes = "유저의 카테고리 리스트를 반환합니다.")
-    public ResponseEntity getCategoryList(@PathVariable Long userId) {
+    public ResponseEntity getCategoryList() {
+        Long userId = userService.currentUser();
         List<Category> categoryList = categoryRepository.findAll();
         List<CustomCategory> customCategoryList = customCategoryRepository.findByUserId(userId);
         List<CategoryDto> userCategoryList = new ArrayList<>();
