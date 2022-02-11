@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -67,7 +68,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto weeklyStatistics(StatisticsRequestDto statisticsRequestDto) {
+    public StatisticsResponseDto weeklyStatistics(LocalDate startDate, LocalDate endDate) {
 
         Long userId = userService.currentUser();
         User user = userRepository.findById(userId).orElseThrow();
@@ -76,7 +77,7 @@ public class ExpenditureService {
 
         //2. 유저의 goalCategoryList를 가져온다.
         List<GoalCategory> goalCategoryList = goalCategoryRepository
-                .findByGoalDateAndUserId(statisticsRequestDto.getStartDate().withDayOfMonth(1), userId);
+                .findByGoalDateAndUserId(startDate.withDayOfMonth(1), userId);
 
         //B.전체 지출 금액
         Long totalExpense = 0L;
@@ -93,12 +94,12 @@ public class ExpenditureService {
             if (gc.getCategory() != null){
                 categoryType = new CategoryType(gc.getCategory().getId(), false);
                 categoryName = gc.getCategory().getName();
-                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCategory(statisticsRequestDto.getStartDate(), statisticsRequestDto.getEndDate(), userId, gc.getCategory());
+                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCategory(startDate, endDate, userId, gc.getCategory());
             }
             else {
                 categoryType = new CategoryType(gc.getCustomCategory().getId(), true);
                 categoryName = gc.getCustomCategory().getName();
-                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(statisticsRequestDto.getStartDate(), statisticsRequestDto.getEndDate(), userId, gc.getCustomCategory());
+                expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, gc.getCustomCategory());
             }
 
             //3-1. 지출 내역을 순회하면서 지출의 합을 구한다.
@@ -122,7 +123,7 @@ public class ExpenditureService {
         }
 
         for (GoalCategoryInfoDto gci : goalCategoryInfoDtoList) {
-            gci.setPercentage((int)gci.getPercentage()/totalExpense);
+            gci.setPercentage(gci.getExpense()/totalExpense * 100);
         }
 
         Comparator<GoalCategoryInfoDto> comparator = new Comparator<GoalCategoryInfoDto>() {
@@ -155,7 +156,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto monthlyStatistics(StatisticsRequestDto statisticsRequestDto) {
+    public StatisticsResponseDto monthlyStatistics(LocalDate startDate, LocalDate endDate) {
         return null;
     }
 

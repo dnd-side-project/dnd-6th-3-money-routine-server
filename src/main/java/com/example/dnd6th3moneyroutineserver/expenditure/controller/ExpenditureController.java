@@ -8,9 +8,12 @@ import com.example.dnd6th3moneyroutineserver.expenditure.dto.ExpenditureWriteDto
 import com.example.dnd6th3moneyroutineserver.expenditure.dto.StatisticsRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,18 +29,18 @@ public class ExpenditureController {
                 .response(StatusCode.OK, ResponseMessage.WRITE_SUCCESS, expenditureService.write(expenditureWriteDto)), HttpStatus.OK);
     }
 
-    @GetMapping("/statistics/weekly")
+    @GetMapping("/statistics/weekly/{startDate}/{endDate}")
     @ApiOperation(value = "주별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 및 지출 내역")
-    public ResponseEntity getWeeklyStatistics(@RequestBody StatisticsRequestDto statisticsRequestDto) {
+    public ResponseEntity getWeeklyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.weeklyStatistics(statisticsRequestDto)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.weeklyStatistics(startDate, endDate)), HttpStatus.OK);
     }
 
-    @GetMapping("/statistics/monthly")
+    @GetMapping("/statistics/monthly/{startDate}/{endDate}")
     @ApiOperation(value = "월별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 (지출 내역은 제외)")
-    public ResponseEntity getMonthlyStatistics(@RequestBody StatisticsRequestDto statisticsRequestDto) {
+    public ResponseEntity getMonthlyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.monthlyStatistics(statisticsRequestDto)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.monthlyStatistics(startDate, endDate)), HttpStatus.OK);
     }
 
     @GetMapping("/statistics/monthly/detail/{categoryId}/{isCustom}")
