@@ -1,11 +1,10 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
-import com.example.dnd6th3moneyroutineserver.user.User;
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder

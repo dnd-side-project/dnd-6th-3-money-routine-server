@@ -1,7 +1,7 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryExpenseInsertDto;
-import com.example.dnd6th3moneyroutineserver.user.UserService;
+import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

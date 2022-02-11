@@ -1,8 +1,10 @@
-package com.example.dnd6th3moneyroutineserver.user;
+package com.example.dnd6th3moneyroutineserver.user.service;
 
 import com.example.dnd6th3moneyroutineserver.security.JwtTokenProvider;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import com.example.dnd6th3moneyroutineserver.user.dto.AccessTokenDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

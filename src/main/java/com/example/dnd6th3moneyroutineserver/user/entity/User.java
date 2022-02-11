@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.user;
+package com.example.dnd6th3moneyroutineserver.user.entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

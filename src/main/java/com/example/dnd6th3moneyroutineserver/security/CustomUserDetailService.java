@@ -1,6 +1,6 @@
 package com.example.dnd6th3moneyroutineserver.security;
 
-import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

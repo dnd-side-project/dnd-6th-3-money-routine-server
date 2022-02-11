@@ -1,15 +1,14 @@
-package com.example.dnd6th3moneyroutineserver.user;
+package com.example.dnd6th3moneyroutineserver.user.controller;
 
 import com.example.dnd6th3moneyroutineserver.common.CustomResponse;
 import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
-import com.example.dnd6th3moneyroutineserver.user.dto.AccessTokenDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
+import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
