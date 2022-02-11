@@ -15,6 +15,5 @@ public class GoalCreateDto {
 
     private int total_budget;
     private List<GoalCategoryCreateDto> goalCategoryCreateDtoList;
-    private Long userId;
 
 }
