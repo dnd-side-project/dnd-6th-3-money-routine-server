@@ -50,7 +50,7 @@ public class ExpenditureService {
         return expenditureRepository.save(expenditure).getId();
     }
 
-//    @Transactional
+    @Transactional
     public StatisticsResponseDto getStatistics(StatisticsRequestDto statisticsRequestDto) {
 
         List<ExpenditureCategoryDto> expenditureCategoryDtoList = new ArrayList<>();

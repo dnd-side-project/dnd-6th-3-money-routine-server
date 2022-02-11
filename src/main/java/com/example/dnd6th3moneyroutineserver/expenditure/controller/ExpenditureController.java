@@ -27,7 +27,7 @@ public class ExpenditureController {
     }
 
     @GetMapping("/statistics")
-//    @ApiOperation(value = "기간 소비 내역 조회", notes = "기간동안 소비 내역을 조회한다. 원형 그래프 영역")
+    @ApiOperation(value = "기간 소비 내역 조회", notes = "기간동안 소비 내역을 조회한다. 원형 그래프 영역")
     public ResponseEntity getExpenditureStatistics(StatisticsRequestDto statisticsRequestDto) {
         return new ResponseEntity(CustomResponse
                 .response(StatusCode.OK, ResponseMessage.STATISTICS_SUCCESS, expenditureService.getStatistics(statisticsRequestDto)), HttpStatus.OK);
