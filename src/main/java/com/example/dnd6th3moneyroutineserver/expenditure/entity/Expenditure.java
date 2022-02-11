@@ -1,5 +1,6 @@
 package com.example.dnd6th3moneyroutineserver.expenditure.entity;
 
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +20,6 @@ public class Expenditure {
     @Column(name = "EXPENDITURE_ID")
     private Long id;
 
-    private Long userId;
-
     private LocalDate date;
 
     private Long expense;
@@ -37,4 +36,8 @@ public class Expenditure {
     private Emotion emotion;
 
     private String emotionDetail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 }

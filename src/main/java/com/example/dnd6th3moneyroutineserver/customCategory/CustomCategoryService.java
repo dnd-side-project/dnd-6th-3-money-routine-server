@@ -1,7 +1,7 @@
 package com.example.dnd6th3moneyroutineserver.customCategory;
 
 import com.example.dnd6th3moneyroutineserver.customCategory.dto.CustomCategoryCreateDto;
-import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

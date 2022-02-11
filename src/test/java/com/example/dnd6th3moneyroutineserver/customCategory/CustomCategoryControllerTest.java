@@ -1,16 +1,13 @@
 package com.example.dnd6th3moneyroutineserver.customCategory;
 
 import com.example.dnd6th3moneyroutineserver.customCategory.dto.CustomCategoryCreateDto;
-import com.example.dnd6th3moneyroutineserver.user.User;
-import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(properties = {"spring.config.location=classpath:application-dev.properties"})
 @Transactional

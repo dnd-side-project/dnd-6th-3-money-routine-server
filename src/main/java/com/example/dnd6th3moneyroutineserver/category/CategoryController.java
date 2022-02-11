@@ -6,7 +6,7 @@ import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryRepository;
-import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

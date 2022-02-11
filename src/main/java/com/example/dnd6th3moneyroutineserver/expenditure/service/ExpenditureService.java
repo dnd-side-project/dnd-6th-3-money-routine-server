@@ -9,7 +9,7 @@ import com.example.dnd6th3moneyroutineserver.expenditure.dto.StatisticsResponseD
 import com.example.dnd6th3moneyroutineserver.expenditure.entity.CategoryType;
 import com.example.dnd6th3moneyroutineserver.expenditure.entity.Expenditure;
 import com.example.dnd6th3moneyroutineserver.expenditure.repository.ExpenditureRepository;
-import com.example.dnd6th3moneyroutineserver.user.UserService;
+import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

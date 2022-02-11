@@ -1,14 +1,13 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.category.CategoryRepository;
-import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryRepository;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryDetailDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
-import com.example.dnd6th3moneyroutineserver.user.User;
-import com.example.dnd6th3moneyroutineserver.user.UserRepository;
+import com.example.dnd6th3moneyroutineserver.user.entity.User;
+import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

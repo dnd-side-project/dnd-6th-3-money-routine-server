@@ -34,14 +34,14 @@ public class ExpenditureController {
     }
 
     @GetMapping("/weekly")
-//    @ApiOperation(value = "주별 소비 동향 조회", notes = "주별 소비 동향을 조회한다. 막대 그래프 영역")
+    @ApiOperation(value = "주별 소비 동향 조회", notes = "주별 소비 동향을 조회한다. 막대 그래프 영역")
     public ResponseEntity getWeeklyTendency() {
         return new ResponseEntity(CustomResponse
                 .response(StatusCode.OK, ResponseMessage.WEEKLY_SUCCESS, expenditureService.getWeekly()), HttpStatus.OK);
     }
 
     @GetMapping("/monthly")
-//    @ApiOperation(value = "월별 소비 동향 조회", notes = "월별 소비 동향을 조회한다. 막대 그래프 영역")
+    @ApiOperation(value = "월별 소비 동향 조회", notes = "월별 소비 동향을 조회한다. 막대 그래프 영역")
     public ResponseEntity getMonthlyTendency() {
         return new ResponseEntity(CustomResponse
                 .response(StatusCode.OK, ResponseMessage.MONTHLY_SUCCESS, expenditureService.getMonthly()), HttpStatus.OK);
