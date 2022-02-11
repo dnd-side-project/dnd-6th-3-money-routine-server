@@ -1,17 +1,24 @@
 package com.example.dnd6th3moneyroutineserver.expenditure.dto;
 
+import com.example.dnd6th3moneyroutineserver.expenditure.entity.Emotion;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
-public class ExpenditureCreateDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ExpenditureWriteDto {
 
-    private Date date;
-    private int expense;
+    private LocalDate date;
+    private Long expense;
     private String expenseDetail;
     private Long categoryId;
     private boolean isCustom;
-    private String emotion;
+    private Emotion emotion;
     private String emotionDetail;
 }

@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.expenditure;
+package com.example.dnd6th3moneyroutineserver.expenditure.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

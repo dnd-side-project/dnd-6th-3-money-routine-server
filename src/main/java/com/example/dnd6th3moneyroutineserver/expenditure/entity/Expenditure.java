@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.expenditure;
+package com.example.dnd6th3moneyroutineserver.expenditure.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Entity
 public class Expenditure {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "EXPENDITURE_ID")
     private Long id;
 
