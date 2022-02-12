@@ -33,14 +33,14 @@ public class ExpenditureController {
     @ApiOperation(value = "주별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 및 지출 내역")
     public ResponseEntity getWeeklyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.weeklyStatistics(startDate, endDate)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.getStatistics("weekly", startDate, endDate)), HttpStatus.OK);
     }
 
     @GetMapping("/statistics/monthly/{startDate}/{endDate}")
     @ApiOperation(value = "월별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 (지출 내역은 제외)")
     public ResponseEntity getMonthlyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.monthlyStatistics(startDate, endDate)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.getStatistics("monthly", startDate, endDate)), HttpStatus.OK);
     }
 
     @GetMapping("/statistics/monthly/detail/{categoryId}/{isCustom}")

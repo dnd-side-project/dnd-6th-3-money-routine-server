@@ -68,7 +68,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto weeklyStatistics(LocalDate startDate, LocalDate endDate) {
+    public StatisticsResponseDto getStatistics(String term, LocalDate startDate, LocalDate endDate) {
 
         Long userId = userService.currentUser();
         User user = userRepository.findById(userId).orElseThrow();
@@ -107,7 +107,9 @@ public class ExpenditureService {
             List<WeeklyExpenditureDetailDto> weeklyExpenditureDetailDtoList= new ArrayList<>();
             for (Expenditure exp : expenditureList) {
                 WeeklyExpenditureDetailDto wdto = new WeeklyExpenditureDetailDto(exp);
-                weeklyExpenditureDetailDtoList.add(wdto);
+                if (term.equals("weekly")) {
+                    weeklyExpenditureDetailDtoList.add(wdto);
+                }
                 categoryExpenseSum += wdto.getExpense();
             }
 
@@ -156,68 +158,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto monthlyStatistics(LocalDate startDate, LocalDate endDate) {
-        return null;
-    }
-
-    @Transactional
     public StatisticsResponseDto monthlyDetails(Long categoryId, boolean isCustom, StatisticsRequestDto statisticsRequestDto) {
-        return null;
-    }
-
-    @Transactional
-    public StatisticsResponseDto getStatistics(StatisticsRequestDto statisticsRequestDto) {
-
-//        List<WeeklyGoalCategoryInfoDto> expenditureCategoryDtoList = new ArrayList<>();
-//
-//        Long userId = userService.currentUser();
-//
-//        //기간 내 카테고리별 소비 내역(expense, categoryId, customCategoryId, isCustom)을 모두 불러온다
-//        List<Expenditure> expenditureList = expenditureRepository.findAllByDateBetweenAndUserId(statisticsRequestDto.getStartDate(), statisticsRequestDto.getEndDate(), userId);
-//
-//        //카테고리별 총액을 계산한다
-//        HashMap<CategoryType, Long> expensePerCategory = new HashMap<>();
-//
-//        for (Expenditure exp : expenditureList) {
-//            CategoryType categoryType = new CategoryType(exp.getCategoryId(), exp.isCustom());
-//            if (expensePerCategory.containsKey(categoryType)) {
-//                Long expense = expensePerCategory.get(categoryType);
-//                expense += exp.getExpense();
-//                expensePerCategory.put(categoryType, expense);
-//            }
-//            else {
-//                expensePerCategory.put(categoryType, exp.getExpense());
-//            }
-//        }
-//
-//        //카테고리별 비율을 계산하고 리스트를 생성한다
-//        Long totalExpense = 0L;
-//        for (Map.Entry<CategoryType, Long> entry : expensePerCategory.entrySet()) {
-//            totalExpense += entry.getValue();
-//        }
-//
-//        Long maxExpense = 0L;
-//        for (Map.Entry<CategoryType, Long> entry : expensePerCategory.entrySet()) {
-//            String categoryName = "";
-//            if (!entry.getKey().isCustom()) {
-//                categoryName = categoryRepository.getById(entry.getKey().getCategoryId()).getName();
-//            }
-//            else {
-//                categoryName = customCategoryRepository.getById(entry.getKey().getCategoryId()).getName();
-//            }
-//            maxExpense = Math.max(maxExpense, entry.getValue());
-//            expenditureCategoryDtoList.add(new WeeklyGoalCategoryInfoDto(entry.getKey(), categoryName, entry.getValue(), entry.getValue()/totalExpense * 100));
-//        }
-//
-//        Comparator<WeeklyGoalCategoryInfoDto> comparator = new Comparator<WeeklyGoalCategoryInfoDto>() {
-//            @Override
-//            public int compare(WeeklyGoalCategoryInfoDto o1, WeeklyGoalCategoryInfoDto o2) {
-//                return (int) (o1.getExpense() - o2.getExpense());
-//            }
-//        };
-//
-//        Collections.sort(expenditureCategoryDtoList, comparator);
-////        return new WeeklyStatisticsResponseDto(expenditureCategoryDtoList.get(0).getCategoryName(), totalExpense, expenditureCategoryDtoList);
         return null;
     }
 
