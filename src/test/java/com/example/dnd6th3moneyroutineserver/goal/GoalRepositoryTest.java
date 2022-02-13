@@ -26,4 +26,11 @@ class GoalRepositoryTest {
         // then
         Assertions.assertThat(goal.getUser().getId()).isEqualTo(45L);
     }
+
+    @Test
+    public void findTop1ByUserIdAndOrderByStartDateDescTest() {
+        Goal goal = goalRepository.findTop1ByUserIdOrderByStartDateDesc(45L);
+
+        System.out.println(goal.getTotalBudget());
+    }
 }

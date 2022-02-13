@@ -82,7 +82,6 @@ class GoalControllerTest {
         goalController.createGoal(
                 GoalCreateDto.builder()
                         .total_budget(1000000)
-                        .userId(user.getId())
                         .goalCategoryCreateDtoList(goalCategoryCreateDtoList)
                         .build()
         );

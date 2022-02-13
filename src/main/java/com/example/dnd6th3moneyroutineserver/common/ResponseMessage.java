@@ -14,7 +14,7 @@ public class ResponseMessage {
     public static final String WEEKLY_STATISTICS_FAIL = "주간 소비 내역 조회 실패";
 
     public static final String MONTHLY_STATISTICS_SUCCESS = "월간 소비 내역 조회 성공";
-    public static final String MONTHLYSTATISTICS_FAIL = "월간 소비 내역 조회 실패";
+    public static final String MONTHLY_STATISTICS_FAIL = "월간 소비 내역 조회 실패";
 
     public static final String WEEKLY_TENDENCY_SUCCESS = "주별 소비 동향 조회 성공";
     public static final String WEEKLY_TENDENCY_FAIL = "주별 소비 동향 조회 실패";
@@ -29,6 +29,8 @@ public class ResponseMessage {
     public static final String CREATE_GOAL_FAIL = "목표 생성 실패";
     public static final String GOAL_INFO_SUCCESS = "목표 정보 조회 성공";
     public static final String GOAL_INFO_FAIL = "목표 정보 조회 실패";
+    public static final String CONTINUE_SUCCESS = "이전 달의 목표 연장 성공";
+    public static final String CONTINUE_FAIL = "이전 달의 목표 연장 실패";
 
 
     // Category, Custom Category

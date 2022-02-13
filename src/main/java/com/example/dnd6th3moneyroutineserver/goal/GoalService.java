@@ -88,6 +88,51 @@ public class GoalService {
         return GoalDetailDto.builder().remainder(remainder).goalCategoryDetailDtoList(detailDtoList).build();
     }
 
+    @Transactional
+    public Long continueLast() {
+        // 1. find last goal
+        Long userId = userService.currentUser();
+        Goal findGoal = goalRepository.findTop1ByUserIdOrderByStartDateDesc(userId);
+
+        // 2. find goal category
+        List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(findGoal.getId());
+
+        // 3. create new Goal and GoalCategories
+        LocalDate now = LocalDate.now();
+        Goal saveGoal = goalRepository.save(
+                Goal.builder()
+                        .user(userRepository.findById(userId).orElseThrow())
+                        .startDate(now.withDayOfMonth(1))
+                        .endDate(now.withDayOfMonth(now.lengthOfMonth()))
+                        .totalBudget(findGoal.getTotalBudget())
+                        .build()
+        );
+
+        for (GoalCategory goalCategory : goalCategoryList) {
+            if (goalCategory.getCategory() == null) {
+                goalCategoryRepository.save(
+                        GoalCategory.builder()
+                                .totalExpense(0)
+                                .customCategory(goalCategory.getCustomCategory())
+                                .goal(saveGoal)
+                                .budget(goalCategory.getBudget())
+                                .build()
+                );
+            } else {
+                goalCategoryRepository.save(
+                        GoalCategory.builder()
+                                .totalExpense(0)
+                                .category(goalCategory.getCategory())
+                                .goal(saveGoal)
+                                .budget(goalCategory.getBudget())
+                                .build()
+                );
+            }
+        }
+
+        return saveGoal.getId();
+    }
+
     private void saveCustomGoalCategory(Goal goal, GoalCategoryCreateDto goalCategoryCreateDto) {
         goalCategoryRepository.save(
                 GoalCategory.builder()
@@ -109,5 +154,4 @@ public class GoalService {
                         .build()
         );
     }
-
 }
