@@ -47,8 +47,9 @@ public class GoalController {
      * 이전 달의 목표를 그대로 이어받아서 진행
      */
     @PostMapping("/continue")
-    public Long continueGoal(@RequestBody Long userId) {
-        return 1L;
+    @ApiOperation(value = "이전 목표 이어하기", notes = "이전 달의 목표, 목표카테고리를 이번 달에 이어서 수행")
+    public ResponseEntity continueGoal() {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.CONTINUE_SUCCESS, goalService.continueLast()), HttpStatus.OK);
     }
 
 
