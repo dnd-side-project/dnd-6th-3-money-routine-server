@@ -8,8 +8,10 @@ import com.example.dnd6th3moneyroutineserver.expenditure.dto.*;
 import com.example.dnd6th3moneyroutineserver.expenditure.entity.CategoryType;
 import com.example.dnd6th3moneyroutineserver.expenditure.entity.Expenditure;
 import com.example.dnd6th3moneyroutineserver.expenditure.repository.ExpenditureRepository;
+import com.example.dnd6th3moneyroutineserver.goal.Goal;
 import com.example.dnd6th3moneyroutineserver.goal.GoalCategory;
 import com.example.dnd6th3moneyroutineserver.goal.GoalCategoryRepository;
+import com.example.dnd6th3moneyroutineserver.goal.GoalRepository;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
@@ -17,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 
 @Service
@@ -25,6 +27,7 @@ import java.util.*;
 public class ExpenditureService {
 
     private final ExpenditureRepository expenditureRepository;
+    private final GoalRepository goalRepository;
     private final GoalCategoryRepository goalCategoryRepository;
     private final CategoryRepository categoryRepository;
     private final CustomCategoryRepository customCategoryRepository;
@@ -158,18 +161,61 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto monthlyDetails(Long categoryId, boolean isCustom, StatisticsRequestDto statisticsRequestDto) {
+    public StatisticsResponseDto monthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
+        Long userId = userService.currentUser();
+        List<Expenditure> expenditureList = new ArrayList<>();
+        if (!isCustom){
+            Category category = categoryRepository.getById(categoryId);
+            expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCategory(startDate, endDate, userId, category);
+        }
+        else {
+            CustomCategory customCategory = customCategoryRepository.getById(categoryId);
+            expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, customCategory);
+        }
+
         return null;
     }
 
     @Transactional
-    public List<Integer> getWeekly() {
+    public WeeklyTendencyResponseDto getWeeklyTendency(LocalDate currentDate) {
 
-        return null;
+        Long userId = userService.currentUser();
+        Goal goal = goalRepository.findByStartDateAndUserId(LocalDate.now(), userId);
+
+        while (!currentDate.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
+            currentDate = currentDate.minusDays(1);
+        }
+
+        List<WeekExpenseInfoDto> weekExpenseInfoDtoList = new ArrayList<>();
+
+        LocalDate endDate;
+        for (int i=0; i<5; i++) {
+            endDate = currentDate.plusDays(6);
+            List<Expenditure> expenditureList = expenditureRepository.findAllByDateBetweenAndUserId(currentDate, endDate, userId);
+
+            //총사용금액 계산
+            Long weekExpense = 0L;
+            for (Expenditure exp : expenditureList) {
+                weekExpense += exp.getExpense();
+            }
+
+            weekExpenseInfoDtoList.add(WeekExpenseInfoDto.builder()
+                    .startDate(currentDate)
+                    .endDate(endDate)
+                    .weekExpense(weekExpense)
+                    .build());
+
+            currentDate = currentDate.minusWeeks(1);
+        }
+
+        Collections.reverse(weekExpenseInfoDtoList);
+
+        return new WeeklyTendencyResponseDto(goal.getTotalBudget()/weekExpenseInfoDtoList.size(), weekExpenseInfoDtoList);
     }
 
     @Transactional
-    public List<Integer> getMonthly() {
+    public List<Integer> getMonthlyTendency(LocalDate currentDate) {
+
         return null;
     }
 
