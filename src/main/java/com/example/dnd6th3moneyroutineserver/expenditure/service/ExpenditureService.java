@@ -74,7 +74,6 @@ public class ExpenditureService {
     public StatisticsResponseDto getStatistics(String term, LocalDate startDate, LocalDate endDate) {
 
         Long userId = userService.currentUser();
-        User user = userRepository.findById(userId).orElseThrow();
 
         //1. 유저의 goal을 가져온다.
 
@@ -161,7 +160,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public StatisticsResponseDto monthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
+    public List<Expenditure> monthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
         Long userId = userService.currentUser();
         List<Expenditure> expenditureList = new ArrayList<>();
         if (!isCustom){
@@ -173,7 +172,7 @@ public class ExpenditureService {
             expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, customCategory);
         }
 
-        return null;
+        return expenditureList;
     }
 
     @Transactional
@@ -214,7 +213,34 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public List<Integer> getMonthlyTendency(LocalDate currentDate) {
+    public MonthlyTendencyResponseDto getMonthlyTendency(LocalDate currentDate) {
+
+        Long userId = userService.currentUser();
+
+        List<WeekExpenseInfoDto> weekExpenseInfoDtoList = new ArrayList<>();
+
+        LocalDate endDate;
+        for (int i=0; i<5; i++) {
+            Goal goal = goalRepository.findByStartDateAndUserId(currentDate.withDayOfMonth(1), userId);
+            endDate = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+            List<Expenditure> expenditureList = expenditureRepository.findAllByDateBetweenAndUserId(currentDate, endDate, userId);
+
+            //총사용금액 계산
+            Long weekExpense = 0L;
+            for (Expenditure exp : expenditureList) {
+                weekExpense += exp.getExpense();
+            }
+
+            weekExpenseInfoDtoList.add(WeekExpenseInfoDto.builder()
+                    .startDate(currentDate)
+                    .endDate(endDate)
+                    .weekExpense(weekExpense)
+                    .build());
+
+            currentDate = currentDate.minusWeeks(1);
+        }
+
+        Collections.reverse(weekExpenseInfoDtoList);
 
         return null;
     }
