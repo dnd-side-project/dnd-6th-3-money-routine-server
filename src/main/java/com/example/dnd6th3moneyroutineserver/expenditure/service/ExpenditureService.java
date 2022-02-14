@@ -217,32 +217,34 @@ public class ExpenditureService {
 
         Long userId = userService.currentUser();
 
-        List<WeekExpenseInfoDto> weekExpenseInfoDtoList = new ArrayList<>();
+        List<MonthExpenseInfoDto> monthExpenseInfoDtoList = new ArrayList<>();
 
+        currentDate = currentDate.withDayOfMonth(1);
         LocalDate endDate;
         for (int i=0; i<5; i++) {
-            Goal goal = goalRepository.findByStartDateAndUserId(currentDate.withDayOfMonth(1), userId);
             endDate = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
             List<Expenditure> expenditureList = expenditureRepository.findAllByDateBetweenAndUserId(currentDate, endDate, userId);
 
             //총사용금액 계산
-            Long weekExpense = 0L;
+            Long monthExpense = 0L;
             for (Expenditure exp : expenditureList) {
-                weekExpense += exp.getExpense();
+                monthExpense += exp.getExpense();
             }
 
-            weekExpenseInfoDtoList.add(WeekExpenseInfoDto.builder()
-                    .startDate(currentDate)
-                    .endDate(endDate)
-                    .weekExpense(weekExpense)
+            Goal goal = goalRepository.findByStartDateAndUserId(currentDate, userId);
+
+            monthExpenseInfoDtoList.add(MonthExpenseInfoDto.builder()
+                    .month(currentDate.getMonthValue())
+                    .budget(goal.getTotalBudget())
+                    .monthExpense(monthExpense.intValue())
                     .build());
 
-            currentDate = currentDate.minusWeeks(1);
+            currentDate = currentDate.minusMonths(1);
         }
 
-        Collections.reverse(weekExpenseInfoDtoList);
+        Collections.reverse(monthExpenseInfoDtoList);
 
-        return null;
+        return new MonthlyTendencyResponseDto(monthExpenseInfoDtoList);
     }
 
 }
