@@ -31,6 +31,8 @@ public class ResponseMessage {
     public static final String GOAL_INFO_FAIL = "목표 정보 조회 실패";
     public static final String CONTINUE_SUCCESS = "이전 달의 목표 연장 성공";
     public static final String CONTINUE_FAIL = "이전 달의 목표 연장 실패";
+    public static final String BUDGET_CHANGE_SUCCESS = "전체 예산 변경 성공";
+    public static final String BUDGET_CHANGE_FAIL = "전체 예산 변경 실패";
 
 
     // Category, Custom Category

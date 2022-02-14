@@ -133,6 +133,13 @@ public class GoalService {
         return saveGoal.getId();
     }
 
+    @Transactional
+    public int changeTotalBudget(Long goalId, int changeBudget) {
+        Goal goal = goalRepository.findById(goalId).orElseThrow();
+        goal.changeTotalBudget(changeBudget);
+        return changeBudget;
+    }
+
     private void saveCustomGoalCategory(Goal goal, GoalCategoryCreateDto goalCategoryCreateDto) {
         goalCategoryRepository.save(
                 GoalCategory.builder()
@@ -154,4 +161,6 @@ public class GoalService {
                         .build()
         );
     }
+
+
 }
