@@ -54,6 +54,7 @@ public class GoalController {
     }
 
     @PatchMapping("/budget")
+    @ApiOperation(value = "전체예산 변경", notes = "목표 전체 예산의 값을 변경")
     public ResponseEntity changeTotalBudget(@RequestBody GoalChangeDto goalChangeDto) {
         return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.BUDGET_CHANGE_SUCCESS, goalService.changeTotalBudget(goalChangeDto.getGoalId(), goalChangeDto.getBudget())), HttpStatus.OK);
     }

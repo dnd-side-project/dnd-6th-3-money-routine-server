@@ -1,6 +1,7 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryExpenseInsertDto;
+import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryModifyDto;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,25 @@ public class GoalCategoryService {
         }
 
         return goalCategoryDtoList;
+    }
+
+    @Transactional
+    public boolean remove(Long goalCategoryId) {
+        GoalCategory removeCategory = goalCategoryRepository.findById(goalCategoryId).orElseThrow();
+        if (!removeCategory.getGoal().getUser().getId().equals(userService.currentUser())) {
+            goalCategoryRepository.delete(removeCategory);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean modifyGoalCategoryBudget(GoalCategoryModifyDto goalCategoryModifyDto) {
+        if (!userService.currentUser().equals(goalCategoryModifyDto.getUserId())) {
+            return false;
+        }
+        GoalCategory goalCategory = goalCategoryRepository.findById(goalCategoryModifyDto.getGoalCategoryId()).orElseThrow();
+        goalCategory.modifyBudget(goalCategoryModifyDto.getChangeBudget());
+        return true;
     }
 }
