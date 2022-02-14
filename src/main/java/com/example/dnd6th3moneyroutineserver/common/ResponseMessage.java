@@ -46,4 +46,6 @@ public class ResponseMessage {
     public static final String CATEGORY_LIST_FAIL = "카테고리 리스트 조회 실패";
     public static final String GOAL_CATEGORY_LIST_SUCCESS = "목표 카테고리 리스트 조회 성공";
     public static final String GOAL_CATEGORY_LIST_FAIL = "목표 카테고리 리스트 조회 성공";
+    public static final String EXCEPT_CATEGORY_LIST_SUCCESS = "지출 분야 추가 리스트 조회 성공";
+    public static final String EXCEPT_CATEGORY_LIST_FAIL = "지출 분야 추가 리스트 조회 실패";
 }

@@ -23,6 +23,8 @@ public class CustomCategory {
 
     private String detail;
 
+    private String emoji;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;

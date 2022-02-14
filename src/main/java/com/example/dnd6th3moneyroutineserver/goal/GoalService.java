@@ -71,21 +71,24 @@ public class GoalService {
         for (GoalCategory goalCategory : goalCategoryList) {
             if (goalCategory.getCategory() == null) {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
+                        .emoji(goalCategory.getCustomCategory().getEmoji())
                         .name(goalCategory.getCustomCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(true)
                         .build());
             } else {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
                         .name(goalCategory.getCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(false)
                         .build());
             }
             remainder -= goalCategory.getTotalExpense();
         }
 
-        return GoalDetailDto.builder().remainder(remainder).goalCategoryDetailDtoList(detailDtoList).build();
+        return GoalDetailDto.builder().remainder(remainder).totalBudget(goal.getTotalBudget()).goalCategoryDetailDtoList(detailDtoList).build();
     }
 
     @Transactional

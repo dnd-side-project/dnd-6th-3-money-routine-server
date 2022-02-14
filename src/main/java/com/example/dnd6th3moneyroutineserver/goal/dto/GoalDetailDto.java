@@ -10,5 +10,6 @@ import java.util.List;
 public class GoalDetailDto {
 
     private int remainder;
+    private int totalBudget;
     private List<GoalCategoryDetailDto> goalCategoryDetailDtoList;
 }
