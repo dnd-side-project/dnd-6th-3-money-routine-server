@@ -64,6 +64,10 @@ public class GoalService {
         }
 
         Goal goal = goalRepository.findByStartDateAndUserId(date.withDayOfMonth(1), userService.currentUser());
+        if (goal == null) {
+            return null;
+        }
+
         List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(goal.getId());
         List<GoalCategoryDetailDto> detailDtoList = new ArrayList<>();
         int remainder = goal.getTotalBudget();
@@ -88,7 +92,12 @@ public class GoalService {
             remainder -= goalCategory.getTotalExpense();
         }
 
-        return GoalDetailDto.builder().remainder(remainder).totalBudget(goal.getTotalBudget()).goalCategoryDetailDtoList(detailDtoList).build();
+        return GoalDetailDto.builder()
+                .goalId(goal.getId())
+                .remainder(remainder)
+                .totalBudget(goal.getTotalBudget())
+                .goalCategoryDetailDtoList(detailDtoList)
+                .build();
     }
 
     @Transactional

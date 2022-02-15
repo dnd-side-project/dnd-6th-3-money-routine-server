@@ -58,7 +58,11 @@ public class CategoryController {
                 .response(StatusCode.OK, ResponseMessage.CATEGORY_LIST_SUCCESS, userCategoryList), HttpStatus.OK);
     }
 
-    @GetMapping("/correction")
+    /**
+     * 지출 분야 추가 버튼 선택 시
+     * @return
+     */
+    @GetMapping("/except-list")
     @ApiOperation(value = "추천 분야 리스트", notes = "지출 분야 추가 화면의 사용자가 진행중이지 않은 기본 추천 분야를 반환")
     public ResponseEntity getExceptCategoryList() {
         return new ResponseEntity(
