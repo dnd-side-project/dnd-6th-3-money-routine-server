@@ -9,6 +9,8 @@ import java.util.List;
 @Builder
 public class GoalDetailDto {
 
+    private Long goalId;
     private int remainder;
+    private int totalBudget;
     private List<GoalCategoryDetailDto> goalCategoryDetailDtoList;
 }

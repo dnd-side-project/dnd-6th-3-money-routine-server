@@ -7,7 +7,9 @@ import lombok.Data;
 @Builder
 public class GoalCategoryDetailDto {
 
+    private String emoji;
     private String name;
     private int budget;
-    private int total_expense;
+    private int totalExpense;
+    private boolean isCustom;
 }

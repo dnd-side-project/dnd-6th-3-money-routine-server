@@ -39,4 +39,8 @@ public class GoalCategory {
     public void addExpense(int expense) {
         this.totalExpense += expense;
     }
+
+    public void modifyBudget(int budget) {
+        this.budget = budget;
+    }
 }

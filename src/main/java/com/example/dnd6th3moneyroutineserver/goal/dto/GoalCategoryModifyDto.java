@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoalCategoryExpenseInsertDto {
+public class GoalCategoryModifyDto {
 
-    private Long categoryId;
-    private boolean isCustom;
-    private String name;
-    private String emoji;
+    private Long userId;
+    private Long goalCategoryId;
+    private int changeBudget;
 }

@@ -3,6 +3,7 @@ package com.example.dnd6th3moneyroutineserver.goal;
 import com.example.dnd6th3moneyroutineserver.common.CustomResponse;
 import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
+import com.example.dnd6th3moneyroutineserver.goal.dto.GoalChangeDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCreateDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalDetailDto;
 import com.sun.istack.NotNull;
@@ -52,5 +53,10 @@ public class GoalController {
         return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.CONTINUE_SUCCESS, goalService.continueLast()), HttpStatus.OK);
     }
 
+    @PatchMapping("/budget")
+    @ApiOperation(value = "전체예산 변경", notes = "목표 전체 예산의 값을 변경")
+    public ResponseEntity changeTotalBudget(@RequestBody GoalChangeDto goalChangeDto) {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.BUDGET_CHANGE_SUCCESS, goalService.changeTotalBudget(goalChangeDto.getGoalId(), goalChangeDto.getBudget())), HttpStatus.OK);
+    }
 
 }

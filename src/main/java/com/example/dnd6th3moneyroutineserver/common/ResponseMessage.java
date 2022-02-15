@@ -24,13 +24,21 @@ public class ResponseMessage {
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
     public static final String DB_ERROR = "데이터베이스 에러";
 
-    // Goal
+    // Goal, GoalCategory
     public static final String CREATE_GOAL_SUCCESS = "목표 생성 성공";
     public static final String CREATE_GOAL_FAIL = "목표 생성 실패";
     public static final String GOAL_INFO_SUCCESS = "목표 정보 조회 성공";
     public static final String GOAL_INFO_FAIL = "목표 정보 조회 실패";
     public static final String CONTINUE_SUCCESS = "이전 달의 목표 연장 성공";
     public static final String CONTINUE_FAIL = "이전 달의 목표 연장 실패";
+    public static final String BUDGET_CHANGE_SUCCESS = "전체 예산 변경 성공";
+    public static final String BUDGET_CHANGE_FAIL = "전체 예산 변경 실패";
+    public static final String REMOVE_GOAL_CATEGORY_SUCCESS = "목표 카테고리 삭제 성공";
+    public static final String REMOVE_GOAL_CATEGORY_FAIL = "목표 카테고리 삭제 실패";
+    public static final String MODIFY_GOAL_CATEGORY_SUCCESS = "목표 카테고리 수정 성공";
+    public static final String MODIFY_GOAL_CATEGORY_FAIL = "목표 카테고리 수정 실패";
+    public static final String DIRECT_ADD_SUCCESS = "목표 카테고리 직접 추가 성공";
+    public static final String DIRECT_ADD_FAIL = "목표 카테고리 직접 추가 실패";
 
 
     // Category, Custom Category
@@ -40,4 +48,6 @@ public class ResponseMessage {
     public static final String CATEGORY_LIST_FAIL = "카테고리 리스트 조회 실패";
     public static final String GOAL_CATEGORY_LIST_SUCCESS = "목표 카테고리 리스트 조회 성공";
     public static final String GOAL_CATEGORY_LIST_FAIL = "목표 카테고리 리스트 조회 성공";
+    public static final String EXCEPT_CATEGORY_LIST_SUCCESS = "지출 분야 추가 리스트 조회 성공";
+    public static final String EXCEPT_CATEGORY_LIST_FAIL = "지출 분야 추가 리스트 조회 실패";
 }

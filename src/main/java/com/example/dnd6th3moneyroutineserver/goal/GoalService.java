@@ -64,6 +64,10 @@ public class GoalService {
         }
 
         Goal goal = goalRepository.findByStartDateAndUserId(date.withDayOfMonth(1), userService.currentUser());
+        if (goal == null) {
+            return null;
+        }
+
         List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(goal.getId());
         List<GoalCategoryDetailDto> detailDtoList = new ArrayList<>();
         int remainder = goal.getTotalBudget();
@@ -71,21 +75,29 @@ public class GoalService {
         for (GoalCategory goalCategory : goalCategoryList) {
             if (goalCategory.getCategory() == null) {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
+                        .emoji(goalCategory.getCustomCategory().getEmoji())
                         .name(goalCategory.getCustomCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(true)
                         .build());
             } else {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
                         .name(goalCategory.getCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(false)
                         .build());
             }
             remainder -= goalCategory.getTotalExpense();
         }
 
-        return GoalDetailDto.builder().remainder(remainder).goalCategoryDetailDtoList(detailDtoList).build();
+        return GoalDetailDto.builder()
+                .goalId(goal.getId())
+                .remainder(remainder)
+                .totalBudget(goal.getTotalBudget())
+                .goalCategoryDetailDtoList(detailDtoList)
+                .build();
     }
 
     @Transactional
@@ -133,6 +145,13 @@ public class GoalService {
         return saveGoal.getId();
     }
 
+    @Transactional
+    public int changeTotalBudget(Long goalId, int changeBudget) {
+        Goal goal = goalRepository.findById(goalId).orElseThrow();
+        goal.changeTotalBudget(changeBudget);
+        return changeBudget;
+    }
+
     private void saveCustomGoalCategory(Goal goal, GoalCategoryCreateDto goalCategoryCreateDto) {
         goalCategoryRepository.save(
                 GoalCategory.builder()
@@ -154,4 +173,6 @@ public class GoalService {
                         .build()
         );
     }
+
+
 }
