@@ -24,7 +24,7 @@ public class CategoryService {
     // Too much query -> need opt
     // 현재는 날짜를 기준으로 쿼리 -> goal 로 가져올 필요 있음
     @Transactional
-    public List<ExceptCategoryDto> getExceptCategory() {
+    public List<ExceptCategoryDto> getExceptCategory(Long goalId) {
         Long userId = userService.currentUser();
         List<Category> categoryList = categoryRepository.findAll();
         List<CustomCategory> customCategoryList = customCategoryRepository.findByUserId(userId);

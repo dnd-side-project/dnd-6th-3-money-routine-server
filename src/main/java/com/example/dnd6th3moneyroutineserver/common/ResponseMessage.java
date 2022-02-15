@@ -37,6 +37,8 @@ public class ResponseMessage {
     public static final String REMOVE_GOAL_CATEGORY_FAIL = "목표 카테고리 삭제 실패";
     public static final String MODIFY_GOAL_CATEGORY_SUCCESS = "목표 카테고리 수정 성공";
     public static final String MODIFY_GOAL_CATEGORY_FAIL = "목표 카테고리 수정 실패";
+    public static final String DIRECT_ADD_SUCCESS = "목표 카테고리 직접 추가 성공";
+    public static final String DIRECT_ADD_FAIL = "목표 카테고리 직접 추가 실패";
 
 
     // Category, Custom Category

@@ -50,6 +50,7 @@ public class CategoryController {
             userCategoryList.add(CategoryDto.builder()
                     .detail(customCategory.getDetail())
                     .name(customCategory.getName())
+                    .emoji(customCategory.getEmoji())
                     .isCustom(true)
                     .build());
         }
@@ -64,9 +65,9 @@ public class CategoryController {
      */
     @GetMapping("/except-list")
     @ApiOperation(value = "추천 분야 리스트", notes = "지출 분야 추가 화면의 사용자가 진행중이지 않은 기본 추천 분야를 반환")
-    public ResponseEntity getExceptCategoryList() {
+    public ResponseEntity getExceptCategoryList(@RequestParam(value = "goalId") Long goalId) {
         return new ResponseEntity(
-                CustomResponse.response(StatusCode.OK, ResponseMessage.EXCEPT_CATEGORY_LIST_SUCCESS, categoryService.getExceptCategory())
+                CustomResponse.response(StatusCode.OK, ResponseMessage.EXCEPT_CATEGORY_LIST_SUCCESS, categoryService.getExceptCategory(goalId))
                 , HttpStatus.OK);
     }
 }
