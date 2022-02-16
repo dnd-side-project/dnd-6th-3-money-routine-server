@@ -53,10 +53,20 @@ public class GoalController {
         return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.CONTINUE_SUCCESS, goalService.continueLast()), HttpStatus.OK);
     }
 
+    /**
+     * Goal 의 budget 변경
+     * @param goalChangeDto
+     * @return
+     */
     @PatchMapping("/budget")
     @ApiOperation(value = "전체예산 변경", notes = "목표 전체 예산의 값을 변경")
     public ResponseEntity changeTotalBudget(@RequestBody GoalChangeDto goalChangeDto) {
         return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.BUDGET_CHANGE_SUCCESS, goalService.changeTotalBudget(goalChangeDto.getGoalId(), goalChangeDto.getBudget())), HttpStatus.OK);
     }
 
+    @GetMapping("/check")
+    @ApiOperation(value = "목표 유무 조회", notes = "사용자의 목표 있을시 true, 없을시 false")
+    public ResponseEntity checkEmpty() {
+        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.GOAL_INFO_SUCCESS, goalService.checkEmpty()), HttpStatus.OK);
+    }
 }
