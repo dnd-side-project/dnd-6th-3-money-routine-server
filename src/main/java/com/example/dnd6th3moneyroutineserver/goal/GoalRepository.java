@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
@@ -17,4 +18,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 //    Goal findTop1ByUserIdAndOrderByStartDateDesc(Long userId);
 
     Goal findTop1ByUserIdOrderByStartDateDesc(Long userId);
+
+    List<Goal> findByUserId(Long userId);
 }
