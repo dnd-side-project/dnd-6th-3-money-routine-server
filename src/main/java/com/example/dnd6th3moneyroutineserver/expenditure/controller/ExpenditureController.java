@@ -31,36 +31,40 @@ public class ExpenditureController {
 
     @GetMapping("/statistics/weekly/{startDate}/{endDate}")
     @ApiOperation(value = "주별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 및 지출 내역")
-    public ResponseEntity getWeeklyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+    public ResponseEntity getWeeklyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                              @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.weeklyStatistics(startDate, endDate)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.WEEKLY_STATISTICS_SUCCESS, expenditureService.getStatistics("weekly", startDate, endDate)), HttpStatus.OK);
     }
 
     @GetMapping("/statistics/monthly/{startDate}/{endDate}")
     @ApiOperation(value = "월별 소비 내역 조회", notes = "가장 많이 지출한 분야명, 총 지출 금액, 분야별 지출 금액, 비율 (지출 내역은 제외)")
-    public ResponseEntity getMonthlyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+    public ResponseEntity getMonthlyStatistics(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                               @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.monthlyStatistics(startDate, endDate)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.getStatistics("monthly", startDate, endDate)), HttpStatus.OK);
     }
 
-    @GetMapping("/statistics/monthly/detail/{categoryId}/{isCustom}")
-    @ApiOperation(value = "월별 카테고리별 소비 내역 상세 조회", notes = "해당 월 해당 카테고리에 대한 소비 내역 상세 조회")
-    public ResponseEntity getMonthlyDetails(@PathVariable Long categoryId, @PathVariable boolean isCustom, StatisticsRequestDto statisticsRequestDto) {
+    @GetMapping("/statistics/monthly/detail/{startDate}/{endDate}/{categoryId}/{isCustom}")
+    @ApiOperation(value = "월별 카테고리별 소비 내역 상세 조회(더보기 버튼)", notes = "해당 월 해당 카테고리에 대한 소비 내역 상세 조회")
+    public ResponseEntity getMonthlyDetails(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                            @PathVariable Long categoryId, @PathVariable boolean isCustom) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_STATISTICS_SUCCESS, expenditureService.monthlyDetails(categoryId, isCustom, statisticsRequestDto)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_DETAILS_SUCCESS, expenditureService.monthlyDetails(startDate, endDate, categoryId, isCustom)), HttpStatus.OK);
     }
 
-    @GetMapping("/weekly")
+    @GetMapping("/weekly/{currentDate}")
     @ApiOperation(value = "주별 소비 동향 조회", notes = "주별 소비 동향을 조회한다. 막대 그래프 영역")
-    public ResponseEntity getWeeklyTendency() {
+    public ResponseEntity getWeeklyTendency(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate currentDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.WEEKLY_TENDENCY_SUCCESS, expenditureService.getWeekly()), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.WEEKLY_TENDENCY_SUCCESS, expenditureService.getWeeklyTendency(currentDate)), HttpStatus.OK);
     }
 
-    @GetMapping("/monthly")
+    @GetMapping("/monthly/{currentDate}")
     @ApiOperation(value = "월별 소비 동향 조회", notes = "월별 소비 동향을 조회한다. 막대 그래프 영역")
-    public ResponseEntity getMonthlyTendency() {
+    public ResponseEntity getMonthlyTendency(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate currentDate) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_TENDENCY_SUCCESS, expenditureService.getMonthly()), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_TENDENCY_SUCCESS, expenditureService.getMonthlyTendency(currentDate)), HttpStatus.OK);
     }
 }

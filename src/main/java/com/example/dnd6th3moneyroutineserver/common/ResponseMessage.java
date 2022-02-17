@@ -10,11 +10,14 @@ public class ResponseMessage {
     public static final String WRITE_SUCCESS = "지출 입력 성공";
     public static final String WRITE_FAIL = "지출 입력 실패";
 
-    public static final String WEEKLY_STATISTICS_SUCCESS = "주간 소비 내역 조회 성공";
-    public static final String WEEKLY_STATISTICS_FAIL = "주간 소비 내역 조회 실패";
+    public static final String WEEKLY_STATISTICS_SUCCESS = "주간 소비 통계, 내역 조회 성공";
+    public static final String WEEKLY_STATISTICS_FAIL = "주간 소비 통계, 내역 조회 실패";
 
-    public static final String MONTHLY_STATISTICS_SUCCESS = "월간 소비 내역 조회 성공";
-    public static final String MONTHLY_STATISTICS_FAIL = "월간 소비 내역 조회 실패";
+    public static final String MONTHLY_STATISTICS_SUCCESS = "월간 소비 통계 조회 성공";
+    public static final String MONTHLY_STATISTICS_FAIL = "월간 소비 통계 조회 실패";
+
+    public static final String MONTHLY_DETAILS_SUCCESS = "월간 소비 내역 조회 성공";
+    public static final String MONTHLY_DETAILS_FAIL = "월간 소비 내역 조회 실패";
 
     public static final String WEEKLY_TENDENCY_SUCCESS = "주별 소비 동향 조회 성공";
     public static final String WEEKLY_TENDENCY_FAIL = "주별 소비 동향 조회 실패";

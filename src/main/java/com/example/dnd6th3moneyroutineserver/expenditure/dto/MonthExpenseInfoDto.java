@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyTendencyResponseDto {
-    List<MonthExpenseInfoDto> monthExpenseInfoDtoList;
+public class MonthExpenseInfoDto {
+    private int month;
+    private int budget;
+    private int monthExpense;
 }
