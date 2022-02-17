@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 @Entity
 public class Badge {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String badgeName;
