@@ -1,12 +1,14 @@
 package com.example.dnd6th3moneyroutineserver.badge;
 
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 public class Board {
     @Id

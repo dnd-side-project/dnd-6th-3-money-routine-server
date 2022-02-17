@@ -1,8 +1,15 @@
 package com.example.dnd6th3moneyroutineserver.badge;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Achieve {
     @Id @GeneratedValue
