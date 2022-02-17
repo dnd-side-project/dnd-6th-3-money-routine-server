@@ -1,4 +1,4 @@
-package com.example.dnd6th3moneyroutineserver.goal.dto;
+package com.example.dnd6th3moneyroutineserver.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoalCategoryExpenseInsertDto {
+public class ExceptCategoryDto {
 
     private Long categoryId;
-    private boolean isCustom;
     private String name;
+    private String detail;
     private String emoji;
+    private boolean isCustom;
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomCategoryCreateDto {
+    private String emoji;
     private String name;
     private String detail;
 }

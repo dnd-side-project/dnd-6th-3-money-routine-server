@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private String name;
     private String detail;
+    private String emoji;
     private boolean isCustom;
 }

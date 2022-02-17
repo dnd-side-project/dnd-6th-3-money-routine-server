@@ -24,13 +24,13 @@ public class CategoryController {
 
     private final CustomCategoryRepository customCategoryRepository;
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
+    private final CategoryService categoryService;
 
     /**
      * Category + Custom Category 목록 반환
      */
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "유저 카테고리 리스트", notes = "유저의 카테고리 리스트를 반환합니다.")
     public ResponseEntity getCategoryList() {
         Long userId = userService.currentUser();
@@ -50,6 +50,7 @@ public class CategoryController {
             userCategoryList.add(CategoryDto.builder()
                     .detail(customCategory.getDetail())
                     .name(customCategory.getName())
+                    .emoji(customCategory.getEmoji())
                     .isCustom(true)
                     .build());
         }
@@ -58,5 +59,15 @@ public class CategoryController {
                 .response(StatusCode.OK, ResponseMessage.CATEGORY_LIST_SUCCESS, userCategoryList), HttpStatus.OK);
     }
 
-
+    /**
+     * 지출 분야 추가 버튼 선택 시
+     * @return
+     */
+    @GetMapping("/except-list")
+    @ApiOperation(value = "추천 분야 리스트", notes = "지출 분야 추가 화면의 사용자가 진행중이지 않은 기본 추천 분야를 반환")
+    public ResponseEntity getExceptCategoryList(@RequestParam(value = "goalId") Long goalId) {
+        return new ResponseEntity(
+                CustomResponse.response(StatusCode.OK, ResponseMessage.EXCEPT_CATEGORY_LIST_SUCCESS, categoryService.getExceptCategory(goalId))
+                , HttpStatus.OK);
+    }
 }

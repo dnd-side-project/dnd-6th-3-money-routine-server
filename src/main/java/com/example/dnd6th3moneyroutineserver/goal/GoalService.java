@@ -59,11 +59,16 @@ public class GoalService {
 
     @Transactional
     public GoalDetailDto infoWithDate(LocalDate date) {
-        if (date == null) {
+        GoalState goalState = GoalState.SUCCESS;
+
+        if (date == null || date.withDayOfMonth(1).equals(LocalDate.now().withDayOfMonth(1))) {
             date = LocalDate.now();
+            goalState = GoalState.PROCEED;
         }
 
         Goal goal = goalRepository.findByStartDateAndUserId(date.withDayOfMonth(1), userService.currentUser());
+        if (goal == null) { return null; }
+
         List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(goal.getId());
         List<GoalCategoryDetailDto> detailDtoList = new ArrayList<>();
         int remainder = goal.getTotalBudget();
@@ -71,21 +76,95 @@ public class GoalService {
         for (GoalCategory goalCategory : goalCategoryList) {
             if (goalCategory.getCategory() == null) {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
+                        .categoryId(goalCategory.getCustomCategory().getId())
+                        .emoji(goalCategory.getCustomCategory().getEmoji())
                         .name(goalCategory.getCustomCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(true)
                         .build());
             } else {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
+                        .categoryId(goalCategory.getCategory().getId())
                         .name(goalCategory.getCategory().getName())
                         .budget(goalCategory.getBudget())
-                        .total_expense(goalCategory.getTotalExpense())
+                        .totalExpense(goalCategory.getTotalExpense())
+                        .isCustom(false)
                         .build());
+            }
+
+            if (goalCategory.getBudget() < goalCategory.getTotalExpense()) {
+                goalState = GoalState.FAIL;
             }
             remainder -= goalCategory.getTotalExpense();
         }
 
-        return GoalDetailDto.builder().remainder(remainder).goalCategoryDetailDtoList(detailDtoList).build();
+        if (goalState.equals(GoalState.SUCCESS) || goalState.equals(GoalState.PROCEED) && remainder < 0) goalState = GoalState.FAIL;
+
+        return GoalDetailDto.builder()
+                .goalId(goal.getId())
+                .remainder(Math.max(remainder, 0))
+                .totalBudget(goal.getTotalBudget())
+                .goalCategoryDetailDtoList(detailDtoList)
+                .goalState(goalState)
+                .build();
+    }
+
+    @Transactional
+    public Long continueLast() {
+        // 1. find last goal
+        Long userId = userService.currentUser();
+        Goal findGoal = goalRepository.findTop1ByUserIdOrderByStartDateDesc(userId);
+
+        // 2. find goal category
+        List<GoalCategory> goalCategoryList = goalCategoryRepository.findByGoalId(findGoal.getId());
+
+        // 3. create new Goal and GoalCategories
+        LocalDate now = LocalDate.now();
+        Goal saveGoal = goalRepository.save(
+                Goal.builder()
+                        .user(userRepository.findById(userId).orElseThrow())
+                        .startDate(now.withDayOfMonth(1))
+                        .endDate(now.withDayOfMonth(now.lengthOfMonth()))
+                        .totalBudget(findGoal.getTotalBudget())
+                        .build()
+        );
+
+        for (GoalCategory goalCategory : goalCategoryList) {
+            if (goalCategory.getCategory() == null) {
+                goalCategoryRepository.save(
+                        GoalCategory.builder()
+                                .totalExpense(0)
+                                .customCategory(goalCategory.getCustomCategory())
+                                .goal(saveGoal)
+                                .budget(goalCategory.getBudget())
+                                .build()
+                );
+            } else {
+                goalCategoryRepository.save(
+                        GoalCategory.builder()
+                                .totalExpense(0)
+                                .category(goalCategory.getCategory())
+                                .goal(saveGoal)
+                                .budget(goalCategory.getBudget())
+                                .build()
+                );
+            }
+        }
+
+        return saveGoal.getId();
+    }
+
+    @Transactional
+    public int changeTotalBudget(Long goalId, int changeBudget) {
+        Goal goal = goalRepository.findById(goalId).orElseThrow();
+        goal.changeTotalBudget(changeBudget);
+        return changeBudget;
+    }
+
+    @Transactional
+    public boolean checkEmpty() {
+        return !goalRepository.findByUserId(userService.currentUser()).isEmpty();
     }
 
     private void saveCustomGoalCategory(Goal goal, GoalCategoryCreateDto goalCategoryCreateDto) {
@@ -109,5 +188,4 @@ public class GoalService {
                         .build()
         );
     }
-
 }
