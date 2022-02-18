@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyTendencyResponseDto {
-    List<MonthExpenseInfoDto> monthExpenseInfoDtoList;
+public class WeekExpenseInfoDto {
+    public LocalDate startDate;
+    public LocalDate endDate;
+    public Long weekExpense;
 }

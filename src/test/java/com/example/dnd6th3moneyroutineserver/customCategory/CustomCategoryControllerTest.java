@@ -36,7 +36,6 @@ class CustomCategoryControllerTest {
             customCategoryController.create(CustomCategoryCreateDto.builder()
                     .detail("i")
                     .name("식품")
-                    .userId(user.getId())
                     .build()
             );
         }

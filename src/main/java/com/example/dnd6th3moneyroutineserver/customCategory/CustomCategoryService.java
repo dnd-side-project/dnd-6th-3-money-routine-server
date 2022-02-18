@@ -18,6 +18,7 @@ public class CustomCategoryService {
     @Transactional
     public Long add(CustomCategoryCreateDto customCategoryCreateDto) {
         CustomCategory save = customCategoryRepository.save(CustomCategory.builder()
+                .emoji(customCategoryCreateDto.getEmoji())
                 .name(customCategoryCreateDto.getName())
                 .detail(customCategoryCreateDto.getDetail())
                 .user(userRepository.findById(userService.currentUser()).orElseThrow())
