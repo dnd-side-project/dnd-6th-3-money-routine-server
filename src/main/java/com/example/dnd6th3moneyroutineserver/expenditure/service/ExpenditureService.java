@@ -271,6 +271,7 @@ public class ExpenditureService {
                     .month(currentDate.getMonthValue())
                     .budget(goal.getTotalBudget())
                     .monthExpense(monthExpense.intValue())
+                    .netSpending(goal.getTotalBudget()-monthExpense.intValue())
                     .build());
 
             currentDate = currentDate.minusMonths(1);

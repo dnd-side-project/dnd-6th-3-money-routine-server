@@ -11,4 +11,5 @@ public class MonthExpenseInfoDto {
     private int month;
     private int budget;
     private int monthExpense;
+    private int netSpending;
 }
