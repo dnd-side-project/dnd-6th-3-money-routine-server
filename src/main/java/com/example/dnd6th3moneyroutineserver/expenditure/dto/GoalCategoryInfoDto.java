@@ -15,7 +15,7 @@ import java.util.List;
 public class GoalCategoryInfoDto {
     private CategoryType categoryType;
     private String categoryName;
-    private double percentage;
+    private int percentage;
     private Long expense;
     private List<WeeklyExpenditureDetailDto> weeklyExpenditureDetailDtoList;
 }

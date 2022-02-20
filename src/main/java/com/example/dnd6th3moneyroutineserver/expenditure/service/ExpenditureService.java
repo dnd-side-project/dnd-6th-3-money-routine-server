@@ -127,17 +127,51 @@ public class ExpenditureService {
         }
 
         for (GoalCategoryInfoDto gci : goalCategoryInfoDtoList) {
-            gci.setPercentage(gci.getExpense()/totalExpense * 100);
+            gci.setPercentage((int) (gci.getExpense()/totalExpense * 100));
         }
 
-        Comparator<GoalCategoryInfoDto> comparator = new Comparator<GoalCategoryInfoDto>() {
+        Comparator<GoalCategoryInfoDto> gcidComparator = new Comparator<GoalCategoryInfoDto>() {
             @Override
             public int compare(GoalCategoryInfoDto o1, GoalCategoryInfoDto o2) {
                 return (int) (o1.getExpense() - o2.getExpense());
             }
         };
 
-        Collections.sort(goalCategoryInfoDtoList, comparator);
+        Collections.sort(goalCategoryInfoDtoList, gcidComparator);
+
+        if (goalCategoryInfoDtoList.size() > 3) {
+            List<GoalCategoryInfoDto> resultGoalCategoryInfoDto = new ArrayList<>();
+            resultGoalCategoryInfoDto.add(goalCategoryInfoDtoList.get(0));
+            resultGoalCategoryInfoDto.add(goalCategoryInfoDtoList.get(1));
+            resultGoalCategoryInfoDto.add(goalCategoryInfoDtoList.get(2));
+
+            List<GoalCategoryInfoDto> restGoalCategoryInfoDtoList = goalCategoryInfoDtoList.subList(3, goalCategoryInfoDtoList.size() - 1);
+            GoalCategoryInfoDto restGoalCategoryInfoDto = new GoalCategoryInfoDto();
+            restGoalCategoryInfoDto.setCategoryName("나머지");
+            int restPercentage = 0;
+            Long restExpense = 0L;
+            List<WeeklyExpenditureDetailDto> restWeeklyExpenditureDetailDtoList = new ArrayList<>();
+            for (GoalCategoryInfoDto rest : restGoalCategoryInfoDtoList) {
+                restPercentage += rest.getPercentage();
+                restExpense += rest.getExpense();
+                restWeeklyExpenditureDetailDtoList.addAll(rest.getWeeklyExpenditureDetailDtoList());
+            }
+
+            Comparator<WeeklyExpenditureDetailDto> weddComparator = new Comparator<WeeklyExpenditureDetailDto>() {
+                @Override
+                public int compare(WeeklyExpenditureDetailDto o1, WeeklyExpenditureDetailDto o2) {
+                    return o1.getDate().compareTo(o2.getDate());
+                }
+            };
+
+            Collections.sort(restWeeklyExpenditureDetailDtoList, weddComparator);
+
+            restGoalCategoryInfoDto.setPercentage(restPercentage);
+            restGoalCategoryInfoDto.setExpense(restExpense);
+            restGoalCategoryInfoDto.setWeeklyExpenditureDetailDtoList(restWeeklyExpenditureDetailDtoList);
+
+            resultGoalCategoryInfoDto.add(restGoalCategoryInfoDto);
+        }
 
         return StatisticsResponseDto.builder()
                 .topCategory(goalCategoryInfoDtoList.get(0).getCategoryName())
