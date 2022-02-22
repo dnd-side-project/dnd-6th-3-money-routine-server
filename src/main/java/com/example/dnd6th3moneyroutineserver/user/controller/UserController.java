@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -31,6 +33,12 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserInfoDto userInfoDto) {
         return new ResponseEntity(CustomResponse
                 .response(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS, userService.login(userInfoDto)), HttpStatus.OK);
+    }
+
+    @PostMapping("/issue")
+    @ApiOperation(value = "토큰 재발급", notes = "refresh 토큰을 이용하여 access 토큰을 재발급받는다.")
+    public ResponseEntity login(HttpServletRequest request) {
+        return ResponseEntity.ok().body(userService.issue(request));
     }
 
 }
