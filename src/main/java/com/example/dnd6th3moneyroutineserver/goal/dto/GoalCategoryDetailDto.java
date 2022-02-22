@@ -10,6 +10,7 @@ public class GoalCategoryDetailDto {
     private Long categoryId;
     private String emoji;
     private String name;
+    private String detail;
     private int budget;
     private int totalExpense;
     private boolean isCustom;
