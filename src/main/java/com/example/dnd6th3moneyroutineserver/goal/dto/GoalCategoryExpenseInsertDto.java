@@ -15,4 +15,5 @@ public class GoalCategoryExpenseInsertDto {
     private boolean isCustom;
     private String name;
     private String emoji;
+    private String detail;
 }

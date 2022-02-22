@@ -45,12 +45,14 @@ public class GoalCategoryService {
                         .isCustom(true)
                         .name(goalCategory.getCustomCategory().getName())
                         .emoji(goalCategory.getCustomCategory().getEmoji())
+                        .detail(goalCategory.getCustomCategory().getDetail())
                         .build());
             } else {
                 goalCategoryDtoList.add(GoalCategoryExpenseInsertDto.builder()
                         .categoryId(goalCategory.getCategory().getId())
                         .isCustom(false)
                         .name(goalCategory.getCategory().getName())
+                        .detail(goalCategory.getCustomCategory().getDetail())
                         .build());
             }
         }
