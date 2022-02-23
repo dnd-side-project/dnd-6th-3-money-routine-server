@@ -63,6 +63,21 @@ public class UserService {
     }
 
     @Transactional
+    public Long logout() {
+        return 1L;
+    }
+
+    @Transactional
+    public void withdraw() {
+        Long userId = this.currentUser();
+        boolean exists = userRepository.existsById(userId);
+        if (exists) {
+            userRepository.deleteById(userId);
+        }
+        return;
+    }
+
+    @Transactional
     public LoginResponseDto issue(HttpServletRequest request) {
         String accessToken = "";
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);

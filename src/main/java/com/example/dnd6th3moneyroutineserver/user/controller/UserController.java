@@ -10,9 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,6 +39,21 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserInfoDto userInfoDto) {
         return new ResponseEntity(CustomResponse
                 .response(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS, userService.login(userInfoDto)), HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    @ApiOperation(value = "로그아웃", notes = "로그아웃을 진행한다.")
+    public ResponseEntity logout() {
+        return new ResponseEntity(CustomResponse
+                .response(StatusCode.OK, ResponseMessage.LOGOUT_SUCCESS, userService.logout()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/withdraw")
+    @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴를 진행한다.")
+    public ResponseEntity withdraw() {
+        userService.withdraw();
+        return new ResponseEntity(CustomResponse
+                .response(StatusCode.OK, ResponseMessage.WITHDRAW_SUCCESS), HttpStatus.OK);
     }
 
     @PostMapping("/issue")
