@@ -79,16 +79,20 @@ public class GoalService {
                         .categoryId(goalCategory.getCustomCategory().getId())
                         .emoji(goalCategory.getCustomCategory().getEmoji())
                         .name(goalCategory.getCustomCategory().getName())
+                        .detail(goalCategory.getCustomCategory().getDetail())
                         .budget(goalCategory.getBudget())
                         .totalExpense(goalCategory.getTotalExpense())
+                        .goalCategoryId(goalCategory.getId())
                         .isCustom(true)
                         .build());
             } else {
                 detailDtoList.add(GoalCategoryDetailDto.builder()
                         .categoryId(goalCategory.getCategory().getId())
                         .name(goalCategory.getCategory().getName())
+                        .detail(goalCategory.getCategory().getDetail())
                         .budget(goalCategory.getBudget())
                         .totalExpense(goalCategory.getTotalExpense())
+                        .goalCategoryId(goalCategory.getId())
                         .isCustom(false)
                         .build());
             }

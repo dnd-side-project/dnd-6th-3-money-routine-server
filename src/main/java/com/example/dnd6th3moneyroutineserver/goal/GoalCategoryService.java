@@ -1,10 +1,12 @@
 package com.example.dnd6th3moneyroutineserver.goal;
 
+import com.example.dnd6th3moneyroutineserver.category.CategoryRepository;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategory;
 import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryRepository;
 import com.example.dnd6th3moneyroutineserver.goal.dto.DirectAddGoalCategoryDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryExpenseInsertDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryModifyDto;
+import com.example.dnd6th3moneyroutineserver.goal.dto.PickedCategoryRequest;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
@@ -25,6 +27,7 @@ public class GoalCategoryService {
     private final UserService userService;
     private final CustomCategoryRepository customCategoryRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     /**
      * User의 GoalCategory List 반환
@@ -45,12 +48,14 @@ public class GoalCategoryService {
                         .isCustom(true)
                         .name(goalCategory.getCustomCategory().getName())
                         .emoji(goalCategory.getCustomCategory().getEmoji())
+                        .detail(goalCategory.getCustomCategory().getDetail())
                         .build());
             } else {
                 goalCategoryDtoList.add(GoalCategoryExpenseInsertDto.builder()
                         .categoryId(goalCategory.getCategory().getId())
                         .isCustom(false)
                         .name(goalCategory.getCategory().getName())
+                        .detail(goalCategory.getCustomCategory().getDetail())
                         .build());
             }
         }
@@ -96,5 +101,18 @@ public class GoalCategoryService {
                 .build());
 
         return true;
+    }
+
+    @Transactional
+    public Long addPickedCategory(PickedCategoryRequest pickedCategoryRequest) {
+        GoalCategory goalCategory = GoalCategory.builder()
+                .category(pickedCategoryRequest.isCustom() ? null : categoryRepository.findById(pickedCategoryRequest.getCategoryId()).orElseThrow())
+                .customCategory(pickedCategoryRequest.isCustom() ? customCategoryRepository.findById(pickedCategoryRequest.getCategoryId()).orElseThrow() : null)
+                .budget(0).totalExpense(0)
+                .goal(goalRepository.findById(pickedCategoryRequest.getGoalId()).orElseThrow())
+                .build();
+
+        GoalCategory save = goalCategoryRepository.save(goalCategory);
+        return save.getId();
     }
 }
