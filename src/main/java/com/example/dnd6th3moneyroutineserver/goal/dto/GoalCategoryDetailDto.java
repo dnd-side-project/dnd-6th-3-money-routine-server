@@ -8,6 +8,7 @@ import lombok.Data;
 public class GoalCategoryDetailDto {
 
     private Long categoryId;
+    private Long goalCategoryId;
     private String emoji;
     private String name;
     private String detail;

@@ -82,6 +82,7 @@ public class GoalService {
                         .detail(goalCategory.getCustomCategory().getDetail())
                         .budget(goalCategory.getBudget())
                         .totalExpense(goalCategory.getTotalExpense())
+                        .goalCategoryId(goalCategory.getId())
                         .isCustom(true)
                         .build());
             } else {
@@ -91,6 +92,7 @@ public class GoalService {
                         .detail(goalCategory.getCategory().getDetail())
                         .budget(goalCategory.getBudget())
                         .totalExpense(goalCategory.getTotalExpense())
+                        .goalCategoryId(goalCategory.getId())
                         .isCustom(false)
                         .build());
             }

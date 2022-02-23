@@ -7,6 +7,7 @@ import com.example.dnd6th3moneyroutineserver.customCategory.CustomCategoryReposi
 import com.example.dnd6th3moneyroutineserver.goal.dto.DirectAddGoalCategoryDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryExpenseInsertDto;
 import com.example.dnd6th3moneyroutineserver.goal.dto.GoalCategoryModifyDto;
+import com.example.dnd6th3moneyroutineserver.goal.dto.PickedCategoryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,14 @@ public class GoalCategoryController {
     @ApiOperation(value = "지출 분야 직접 추가", notes = "지출 분야 추가 페이지의 직접 추가")
     public ResponseEntity addCustomCategoryWithGoalCategory(@RequestBody DirectAddGoalCategoryDto directAddGoalCategoryDto) {
         return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.DIRECT_ADD_SUCCESS, goalCategoryService.directAddGoalCategory(directAddGoalCategoryDto)), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/pick")
+    @ApiOperation(value = "카테고리 선택 추가", notes = "지출분야 추가 페이지의 선택 추가")
+    public ResponseEntity addPickedCategoryBy(PickedCategoryRequest pickedCategoryRequest) {
+        return new ResponseEntity(
+                CustomResponse.response(StatusCode.OK, ResponseMessage.DIRECT_ADD_SUCCESS, goalCategoryService.addPickedCategory(pickedCategoryRequest)), HttpStatus.CREATED
+        );
     }
 
 //    @GetMapping("/test")
