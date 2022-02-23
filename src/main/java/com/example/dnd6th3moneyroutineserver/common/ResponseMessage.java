@@ -64,4 +64,6 @@ public class ResponseMessage {
     public static final String WEEKLY_DIARY_FAIL = "주별 다이어리 조회 실패";
     public static final String DAILY_DIARY_SUCCESS = "일별 다이어리 조회 성공";
     public static final String DAILY_DIARY_FAIL = "일별 다이어리 조회 실패";
+    public static final String MONTHLY_DIARY_SUCCESS = "월별 다이어리 조회 성공";
+    public static final String MONTHLY_DIARY_FAIL = "월별 다이어리 조회 실패";
 }

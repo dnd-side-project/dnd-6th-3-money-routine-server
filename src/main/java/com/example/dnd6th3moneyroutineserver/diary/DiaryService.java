@@ -42,6 +42,74 @@ public class DiaryService {
     }
 
     @Transactional
+    public Map<Emotion, Integer> getMonthlyBestEmotionBy(LocalDate date) {
+        List<Expenditure> expenditureList = expenditureRepository.findAllByDateBetweenAndUserId(date, date.withDayOfMonth(date.lengthOfMonth()), userService.currentUser());
+        Map<Emotion, Integer> emotionMap = new HashMap<>();
+
+        for (Expenditure expenditure : expenditureList) {
+            emotionMap.put(expenditure.getEmotion(), emotionMap.getOrDefault(expenditure.getEmotion(), 0) + 1);
+        }
+
+        return emotionMap;
+    }
+
+    @Transactional
+    public List<MonthlyDiaryResponse> getMonthlyDiaryBy(LocalDate date, Emotion emotion) {
+        List<Expenditure> expenditureList = expenditureRepository.findByDateBetweenAndUserIdAndEmotion(date.withDayOfMonth(1), date.withDayOfMonth(date.lengthOfMonth()), userService.currentUser(), emotion);
+
+        Map<String, List<Expenditure>> expenditureMap = new HashMap<>();
+        for (Expenditure expenditure : expenditureList) {
+            if (expenditure.getCategory() == null && !expenditureMap.containsKey(expenditure.getCustomCategory().getName())) {
+                expenditureMap.put(expenditure.getCustomCategory().getName(), new ArrayList<>());
+            }
+            if (expenditure.getCategory() != null && !expenditureMap.containsKey(expenditure.getCategory().getName())) {
+                expenditureMap.put(expenditure.getCategory().getName(), new ArrayList<>());
+            }
+            expenditureMap.get(expenditure.getCategory().getName()).add(expenditure);
+        }
+
+        List<MonthlyDiaryResponse> monthlyDiaryResponseList = new ArrayList<>();
+        for (String name : expenditureMap.keySet()) {
+            List<ExpenditureDiaryDto> expenditureDiaryDtoList = new ArrayList<>();
+            for (Expenditure expenditure : expenditureMap.get(name)) {
+                expenditureDiaryDtoList.add(
+                        ExpenditureDiaryDto.builder()
+                                .date(expenditure.getDate())
+                                .emotionDetail(expenditure.getEmotionDetail())
+                                .expenseDetail(expenditure.getExpenseDetail())
+                                .build()
+                );
+            }
+            monthlyDiaryResponseList.add(MonthlyDiaryResponse.builder()
+                    .name(name)
+                    .count(expenditureDiaryDtoList.size())
+                    .expenditureDiaryDtoList(expenditureDiaryDtoList)
+                    .build());
+        }
+        return monthlyDiaryResponseList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class MonthlyDiaryResponse {
+        private String name;
+        private int count;
+        private List<ExpenditureDiaryDto> expenditureDiaryDtoList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class ExpenditureDiaryDto {
+        private String expenseDetail;
+        private String emotionDetail;
+        private LocalDate date;
+    }
+
+    @Transactional
     public List<DailyDiaryDto> getDailyExpenseInWeeklyDiary(LocalDate date) {
         Long userId = userService.currentUser();
         List<Expenditure> expenditureList = expenditureRepository.findByDateAndUserId(date, userId);

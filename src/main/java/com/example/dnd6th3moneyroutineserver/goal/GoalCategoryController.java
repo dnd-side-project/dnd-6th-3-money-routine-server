@@ -62,7 +62,7 @@ public class GoalCategoryController {
 
     @PostMapping("/pick")
     @ApiOperation(value = "카테고리 선택 추가", notes = "지출분야 추가 페이지의 선택 추가")
-    public ResponseEntity addPickedCategoryBy(PickedCategoryRequest pickedCategoryRequest) {
+    public ResponseEntity addPickedCategoryBy(@RequestBody PickedCategoryRequest pickedCategoryRequest) {
         return new ResponseEntity(
                 CustomResponse.response(StatusCode.OK, ResponseMessage.DIRECT_ADD_SUCCESS, goalCategoryService.addPickedCategory(pickedCategoryRequest)), HttpStatus.CREATED
         );
