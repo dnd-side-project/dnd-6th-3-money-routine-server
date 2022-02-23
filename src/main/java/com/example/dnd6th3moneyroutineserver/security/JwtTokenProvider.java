@@ -23,7 +23,8 @@ public class JwtTokenProvider {
 
     private String secretKey = "moneyroutine";
 
-    private long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
+    private long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 24 * 1000L;
+//    private long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
     private long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 1000L;
 
     private final UserDetailsService userDetailsService;
