@@ -3,6 +3,7 @@ package com.example.dnd6th3moneyroutineserver.user.controller;
 import com.example.dnd6th3moneyroutineserver.common.CustomResponse;
 import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
+import com.example.dnd6th3moneyroutineserver.user.dto.JoinResponseDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -24,8 +25,15 @@ public class UserController {
     @PostMapping("/join")
     @ApiOperation(value = "회원가입", notes = "이메일과 비밀번호로 회원가입을 진행한다.")
     public ResponseEntity join(@RequestBody UserInfoDto userInfoDto) {
-        return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.JOIN_SUCCESS, userService.join(userInfoDto)), HttpStatus.OK);
+        JoinResponseDto joinResponseDto = userService.join(userInfoDto);
+        if (joinResponseDto.isExist()) {
+            return new ResponseEntity(CustomResponse
+                    .response(StatusCode.BAD_REQUEST, ResponseMessage.JOIN_FAIL_DUPLICATE, joinResponseDto), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity(CustomResponse
+                    .response(StatusCode.OK, ResponseMessage.JOIN_SUCCESS, joinResponseDto), HttpStatus.OK);
+        }
     }
 
     @PostMapping("/login")

@@ -1,8 +1,9 @@
 package com.example.dnd6th3moneyroutineserver.user.service;
 
 import com.example.dnd6th3moneyroutineserver.security.JwtTokenProvider;
+import com.example.dnd6th3moneyroutineserver.user.dto.JoinResponseDto;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
-import com.example.dnd6th3moneyroutineserver.user.dto.JwtTokenDto;
+import com.example.dnd6th3moneyroutineserver.user.dto.LoginResponseDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +25,26 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public JwtTokenDto join(UserInfoDto userInfoDto) {
-        User user = userRepository.save(User.builder()
-                .email(userInfoDto.getEmail())
-                .password(passwordEncoder.encode(userInfoDto.getPassword()))
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
+    public JoinResponseDto join(UserInfoDto userInfoDto) {
+        boolean exists = userRepository.existsByEmail(userInfoDto.getEmail());
+        if (exists) {
+            return new JoinResponseDto(true, null, null);
+        }
+        else {
+            User user = userRepository.save(User.builder()
+                    .email(userInfoDto.getEmail())
+                    .password(passwordEncoder.encode(userInfoDto.getPassword()))
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    .build());
 
-        String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
-        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
-        return new JwtTokenDto(accessToken, refreshToken);
+            String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+            String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
+            return new JoinResponseDto(false, accessToken, refreshToken);
+        }
     }
 
     @Transactional
-    public JwtTokenDto login(UserInfoDto userInfoDto) {
+    public LoginResponseDto login(UserInfoDto userInfoDto) {
         User user = userRepository.findByEmail(userInfoDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("User doesn't exists"));
         if (!passwordEncoder.matches(userInfoDto.getPassword(), user.getPassword())) {
@@ -45,7 +52,7 @@ public class UserService {
         }
         String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
         String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
-        return new JwtTokenDto(accessToken, refreshToken);
+        return new LoginResponseDto(accessToken, refreshToken);
     }
 
     @Transactional
@@ -56,7 +63,7 @@ public class UserService {
     }
 
     @Transactional
-    public JwtTokenDto issue(HttpServletRequest request) {
+    public LoginResponseDto issue(HttpServletRequest request) {
         String accessToken = "";
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 
@@ -66,6 +73,6 @@ public class UserService {
             accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
             refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         }
-        return new JwtTokenDto(accessToken, refreshToken);
+        return new LoginResponseDto(accessToken, refreshToken);
     }
 }
