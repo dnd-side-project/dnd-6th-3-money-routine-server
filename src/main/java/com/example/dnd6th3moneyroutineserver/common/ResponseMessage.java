@@ -3,9 +3,14 @@ package com.example.dnd6th3moneyroutineserver.common;
 public class ResponseMessage {
     public static final String JOIN_SUCCESS = "회원 가입 성공";
     public static final String JOIN_FAIL = "회원 가입 실패";
+    public static final String JOIN_FAIL_DUPLICATE = "회원 가입 실패(동일 이메일 존재)";
 
     public static final String LOGIN_SUCCESS = "로그인 성공";
     public static final String LOGIN_FAIL = "로그인 실패";
+    
+    public static final String LOGOUT_SUCCESS = "로그아웃 성공";
+    
+    public static final String WITHDRAW_SUCCESS = "회원 탈퇴 성공";
 
     public static final String WRITE_SUCCESS = "지출 입력 성공";
     public static final String WRITE_FAIL = "지출 입력 실패";
@@ -53,4 +58,12 @@ public class ResponseMessage {
     public static final String GOAL_CATEGORY_LIST_FAIL = "목표 카테고리 리스트 조회 성공";
     public static final String EXCEPT_CATEGORY_LIST_SUCCESS = "지출 분야 추가 리스트 조회 성공";
     public static final String EXCEPT_CATEGORY_LIST_FAIL = "지출 분야 추가 리스트 조회 실패";
+
+    // Diary
+    public static final String WEEKLY_DIARY_SUCCESS = "주별 다이어리 조회 성공";
+    public static final String WEEKLY_DIARY_FAIL = "주별 다이어리 조회 실패";
+    public static final String DAILY_DIARY_SUCCESS = "일별 다이어리 조회 성공";
+    public static final String DAILY_DIARY_FAIL = "일별 다이어리 조회 실패";
+    public static final String MONTHLY_DIARY_SUCCESS = "월별 다이어리 조회 성공";
+    public static final String MONTHLY_DIARY_FAIL = "월별 다이어리 조회 실패";
 }
