@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
@@ -20,11 +21,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         //헤더에서 JWT 반환
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+        String accessToken = jwtTokenProvider.resolveAccessToken((HttpServletRequest) request);
         //토큰 유효성 검사
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
             //유효한 토큰 -> 유저 정보 반환
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             //SecurityContext에 Authentication 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

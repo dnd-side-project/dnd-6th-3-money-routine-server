@@ -23,7 +23,9 @@ public class JwtTokenProvider {
 
     private String secretKey = "moneyroutine";
 
-    private long tokenValideTime = 30 * 60 * 1000L;
+    private long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 24 * 1000L;
+//    private long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
+    private long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 1000L;
 
     private final UserDetailsService userDetailsService;
 
@@ -34,14 +36,26 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
+    public String createAccessToken(String userPk, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userPk);//JWT payload에 저장되는 단위
         claims.put("roles", roles);//(key, value) 쌍으로 저장
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)//정보 저장
                 .setIssuedAt(now)//토큰 발행 시간
-                .setExpiration(new Date(now.getTime()+tokenValideTime))//토큰 만료 시간
+                .setExpiration(new Date(now.getTime()+ ACCESS_TOKEN_VALID_TIME))//토큰 만료 시간
+                .signWith(SignatureAlgorithm.HS256, secretKey)//암호화 알고리즘, secret값
+                .compact();
+    }
+
+    public String createRefreshToken(String userPk, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(userPk);//JWT payload에 저장되는 단위
+        claims.put("roles", roles);//(key, value) 쌍으로 저장
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)//정보 저장
+                .setIssuedAt(now)//토큰 발행 시간
+                .setExpiration(new Date(now.getTime()+ REFRESH_TOKEN_VALID_TIME))//토큰 만료 시간
                 .signWith(SignatureAlgorithm.HS256, secretKey)//암호화 알고리즘, secret값
                 .compact();
     }
@@ -58,8 +72,12 @@ public class JwtTokenProvider {
     }
 
     //Request Header에서 토큰 추출
-    public String resolveToken(HttpServletRequest request) {
+    public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("X-AUTH-TOKEN");
+    }
+
+    public String resolveRefreshToken(HttpServletRequest request) {
+        return request.getHeader("REFRESH-TOKEN");
     }
 
     //토큰 유효성, 만료 검사
