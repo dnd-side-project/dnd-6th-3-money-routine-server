@@ -35,8 +35,8 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String createAccessToken(Long userPk, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(String.valueOf(userPk));//JWT payload에 저장되는 단위
+    public String createAccessToken(String userPk, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(userPk);//JWT payload에 저장되는 단위
         claims.put("roles", roles);//(key, value) 쌍으로 저장
         Date now = new Date();
         return Jwts.builder()
@@ -47,8 +47,8 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(Long userPk, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(String.valueOf(userPk));//JWT payload에 저장되는 단위
+    public String createRefreshToken(String userPk, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(userPk);//JWT payload에 저장되는 단위
         claims.put("roles", roles);//(key, value) 쌍으로 저장
         Date now = new Date();
         return Jwts.builder()
@@ -72,7 +72,7 @@ public class JwtTokenProvider {
 
     //Request Header에서 토큰 추출
     public String resolveAccessToken(HttpServletRequest request) {
-        return request.getHeader("ACCESS-TOKEN");
+        return request.getHeader("X-AUTH-TOKEN");
     }
 
     public String resolveRefreshToken(HttpServletRequest request) {

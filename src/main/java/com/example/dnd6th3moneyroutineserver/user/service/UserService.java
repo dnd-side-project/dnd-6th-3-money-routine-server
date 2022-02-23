@@ -31,8 +31,8 @@ public class UserService {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
-        String accessToken =  jwtTokenProvider.createAccessToken(user.getId(), user.getRoles());
-        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getId(), user.getRoles());
+        String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         return new JwtTokenDto(accessToken, refreshToken);
     }
 
@@ -43,8 +43,8 @@ public class UserService {
         if (!passwordEncoder.matches(userInfoDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Wrong password");
         }
-        String accessToken =  jwtTokenProvider.createAccessToken(user.getId(), user.getRoles());
-        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getId(), user.getRoles());
+        String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         return new JwtTokenDto(accessToken, refreshToken);
     }
 
@@ -63,8 +63,8 @@ public class UserService {
         if (refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
             String userPk = jwtTokenProvider.getUserPk(refreshToken);
             User user = userRepository.findById(Long.valueOf(userPk)).orElseThrow(() -> new IllegalArgumentException("User doesn't exists"));
-            accessToken =  jwtTokenProvider.createAccessToken(user.getId(), user.getRoles());
-            refreshToken =  jwtTokenProvider.createRefreshToken(user.getId(), user.getRoles());
+            accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+            refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         }
         return new JwtTokenDto(accessToken, refreshToken);
     }

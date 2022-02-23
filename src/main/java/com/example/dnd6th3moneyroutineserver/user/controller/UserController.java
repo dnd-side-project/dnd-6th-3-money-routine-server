@@ -37,7 +37,7 @@ public class UserController {
 
     @PostMapping("/issue")
     @ApiOperation(value = "토큰 재발급", notes = "refresh 토큰을 이용하여 access 토큰을 재발급받는다.")
-    public ResponseEntity login(HttpServletRequest request) {
+    public ResponseEntity issue(HttpServletRequest request) {
         return ResponseEntity.ok().body(userService.issue(request));
     }
 
