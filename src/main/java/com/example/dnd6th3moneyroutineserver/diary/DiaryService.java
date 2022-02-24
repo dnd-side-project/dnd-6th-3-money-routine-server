@@ -19,11 +19,12 @@ public class DiaryService {
     private final ExpenditureRepository expenditureRepository;
 
     @Transactional
-    public TreeMap<LocalDate, List<DailyExpenditureEmotionDto>> getWeeklyData(int year, int month, int week) {
+    public List<WeeklyDiaryDto> getWeeklyData(int year, int month, int week) {
         Long userId = userService.currentUser();
         LocalDate[] weeklyStartAndEndDate = findWeeklyStartDateAndEndDate(year, month, week);
         List<Expenditure> weeklyExpenditure = expenditureRepository.findByDateBetweenAndUserIdOrderByDateAsc(weeklyStartAndEndDate[0], weeklyStartAndEndDate[1], userId);
         TreeMap<LocalDate, List<DailyExpenditureEmotionDto>> weeklyMap = new TreeMap<>(Comparator.naturalOrder());
+        List<WeeklyDiaryDto> weeklyDiaryDtoList = new ArrayList<>();
 
         LocalDate startDate = weeklyStartAndEndDate[0];
 
@@ -38,7 +39,23 @@ public class DiaryService {
                     .build());
         }
 
-        return weeklyMap;
+        for (Map.Entry<LocalDate, List<DailyExpenditureEmotionDto>> localDateListEntry : weeklyMap.entrySet()) {
+            weeklyDiaryDtoList.add(WeeklyDiaryDto.builder()
+                            .date(localDateListEntry.getKey())
+                            .dailyExpenditureEmotionDtoList(localDateListEntry.getValue())
+                    .build());
+        }
+
+        return weeklyDiaryDtoList;
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class WeeklyDiaryDto {
+        private LocalDate date;
+        private List<DailyExpenditureEmotionDto> dailyExpenditureEmotionDtoList;
     }
 
     @Transactional
@@ -65,7 +82,7 @@ public class DiaryService {
             if (expenditure.getCategory() != null && !expenditureMap.containsKey(expenditure.getCategory().getName())) {
                 expenditureMap.put(expenditure.getCategory().getName(), new ArrayList<>());
             }
-            expenditureMap.get(expenditure.getCategory().getName()).add(expenditure);
+            expenditureMap.get(expenditure.isCustom() ? expenditure.getCustomCategory().getName() : expenditure.getCategory().getName()).add(expenditure);
         }
 
         List<MonthlyDiaryResponse> monthlyDiaryResponseList = new ArrayList<>();
@@ -86,6 +103,7 @@ public class DiaryService {
                     .expenditureDiaryDtoList(expenditureDiaryDtoList)
                     .build());
         }
+        monthlyDiaryResponseList.sort((o1, o2) -> o2.count - o1.count);
         return monthlyDiaryResponseList;
     }
 
@@ -136,6 +154,8 @@ public class DiaryService {
                         .expenseDetail(expenditure.getExpenseDetail())
                         .expense(expenditure.getExpense().intValue())
                         .date(expenditure.getDate())
+                        .expenditureId(expenditure.getId())
+                        .emotionDetail(expenditure.getEmotionDetail())
                         .name((expenditure.getCategory() == null) ? expenditure.getCustomCategory().getName() : expenditure.getCategory().getName())
                         .detail((expenditure.getCategory() == null) ? expenditure.getCustomCategory().getDetail() : expenditure.getCategory().getDetail())
                         .categoryId((expenditure.getCategory() == null) ? expenditure.getCustomCategory().getId() : expenditure.getCategory().getId())
@@ -169,6 +189,8 @@ public class DiaryService {
     @NoArgsConstructor
     @AllArgsConstructor
     static class ExpenditureDto {
+        private Long expenditureId;
+        private String emotionDetail;
         private Long categoryId;
         private String name;
         private String detail;
@@ -178,15 +200,7 @@ public class DiaryService {
         private boolean isCustom;
     }
 
-    @Builder
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class WeeklyDiaryDto {
-        private Long id;
-        private String expenseDetail;
-        private String categoryDetail;
-    }
+
 
     @Builder
     @Data
