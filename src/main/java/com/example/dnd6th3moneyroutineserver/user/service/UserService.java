@@ -45,11 +45,12 @@ public class UserService {
         User user = userRepository.findByEmail(userInfoDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("User doesn't exists"));
         if (!passwordEncoder.matches(userInfoDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Wrong password");
+//            throw new IllegalArgumentException("Wrong password");
+            return new LoginResponseDto(false, null, null);
         }
         String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
         String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
-        return new LoginResponseDto(accessToken, refreshToken);
+        return new LoginResponseDto(true, accessToken, refreshToken);
     }
 
     @Transactional
@@ -85,6 +86,6 @@ public class UserService {
             accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
             refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         }
-        return new LoginResponseDto(accessToken, refreshToken);
+        return new LoginResponseDto(true, accessToken, refreshToken);
     }
 }
