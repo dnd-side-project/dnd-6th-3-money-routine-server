@@ -1,10 +1,8 @@
 package com.example.dnd6th3moneyroutineserver.user.service;
 
 import com.example.dnd6th3moneyroutineserver.security.JwtTokenProvider;
-import com.example.dnd6th3moneyroutineserver.user.dto.JoinResponseDto;
+import com.example.dnd6th3moneyroutineserver.user.dto.*;
 import com.example.dnd6th3moneyroutineserver.user.repository.UserRepository;
-import com.example.dnd6th3moneyroutineserver.user.dto.LoginResponseDto;
-import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
 import com.example.dnd6th3moneyroutineserver.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,21 +24,20 @@ public class UserService {
 
     @Transactional
     public JoinResponseDto join(UserInfoDto userInfoDto) {
-        boolean exists = userRepository.existsByEmail(userInfoDto.getEmail());
-        if (exists) {
-            return new JoinResponseDto(true, null, null);
-        }
-        else {
-            User user = userRepository.save(User.builder()
-                    .email(userInfoDto.getEmail())
-                    .password(passwordEncoder.encode(userInfoDto.getPassword()))
-                    .roles(Collections.singletonList("ROLE_USER"))
-                    .build());
+        User user = userRepository.save(User.builder()
+                .email(userInfoDto.getEmail())
+                .password(passwordEncoder.encode(userInfoDto.getPassword()))
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build());
 
-            String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
-            String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
-            return new JoinResponseDto(false, accessToken, refreshToken);
-        }
+        String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
+        return new JoinResponseDto(accessToken, refreshToken);
+    }
+
+    @Transactional
+    public ExistResponseDto exist(EmailDto emailDto) {
+        return new ExistResponseDto(userRepository.existsByEmail(emailDto.getEmail()));
     }
 
     @Transactional
