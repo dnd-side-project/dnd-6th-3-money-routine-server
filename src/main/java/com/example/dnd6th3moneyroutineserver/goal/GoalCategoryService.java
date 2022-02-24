@@ -55,7 +55,7 @@ public class GoalCategoryService {
                         .categoryId(goalCategory.getCategory().getId())
                         .isCustom(false)
                         .name(goalCategory.getCategory().getName())
-                        .detail(goalCategory.getCustomCategory().getDetail())
+                        .detail(goalCategory.getCategory().getDetail())
                         .build());
             }
         }
