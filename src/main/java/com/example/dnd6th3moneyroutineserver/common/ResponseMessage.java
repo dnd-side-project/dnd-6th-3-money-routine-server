@@ -3,7 +3,8 @@ package com.example.dnd6th3moneyroutineserver.common;
 public class ResponseMessage {
     public static final String JOIN_SUCCESS = "회원 가입 성공";
     public static final String JOIN_FAIL = "회원 가입 실패";
-    public static final String JOIN_FAIL_DUPLICATE = "회원 가입 실패(동일 이메일 존재)";
+
+    public static final String EMAIL_EXISTS = "이메일 중복검사";
 
     public static final String LOGIN_SUCCESS = "로그인 성공";
     public static final String LOGIN_FAIL = "로그인 실패";

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JoinResponseDto {
-    private String accessToken;
-    private String refreshToken;
+public class EmailDto {
+    public String email;
 }
