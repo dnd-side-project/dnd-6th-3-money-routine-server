@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,15 +43,20 @@ public class UserService {
 
     @Transactional
     public LoginResponseDto login(UserInfoDto userInfoDto) {
-        User user = userRepository.findByEmail(userInfoDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User doesn't exists"));
-        if (!passwordEncoder.matches(userInfoDto.getPassword(), user.getPassword())) {
+        Optional<User> user = userRepository.findByEmail(userInfoDto.getEmail());
+        if (user.isPresent()){
+            if (!passwordEncoder.matches(userInfoDto.getPassword(), user.get().getPassword())) {
 //            throw new IllegalArgumentException("Wrong password");
+                return new LoginResponseDto(false, null, null);
+            }
+            String accessToken =  jwtTokenProvider.createAccessToken(user.get().getUsername(), user.get().getRoles());
+            String refreshToken =  jwtTokenProvider.createRefreshToken(user.get().getUsername(), user.get().getRoles());
+            return new LoginResponseDto(true, accessToken, refreshToken);
+        }
+        else{
             return new LoginResponseDto(false, null, null);
         }
-        String accessToken =  jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
-        String refreshToken =  jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
-        return new LoginResponseDto(true, accessToken, refreshToken);
+        
     }
 
     @Transactional
