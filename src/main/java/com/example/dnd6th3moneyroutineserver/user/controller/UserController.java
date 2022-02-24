@@ -5,6 +5,7 @@ import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.user.dto.EmailDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.JoinResponseDto;
+import com.example.dnd6th3moneyroutineserver.user.dto.LoginResponseDto;
 import com.example.dnd6th3moneyroutineserver.user.dto.UserInfoDto;
 import com.example.dnd6th3moneyroutineserver.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +39,13 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation(value = "로그인", notes = "이메일과 비밀번호로 로그인을 진행한다.")
     public ResponseEntity login(@RequestBody UserInfoDto userInfoDto) {
+        LoginResponseDto loginResponseDto = userService.login(userInfoDto);
+        if (loginResponseDto.isSuccess()) {
+            return new ResponseEntity(CustomResponse
+                    .response(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS, loginResponseDto), HttpStatus.OK);
+        }
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS, userService.login(userInfoDto)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.LOGIN_FAIL, loginResponseDto), HttpStatus.OK);
     }
 
     @GetMapping("/logout")
