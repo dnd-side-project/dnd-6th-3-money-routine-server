@@ -1,4 +1,6 @@
 # dnd-6th-3-money-routine-server
+<!-- <img width="282" alt="스크린샷 2022-03-01 오후 10 31 09" src="https://user-images.githubusercontent.com/77976233/156178542-7067f4d5-0586-4459-b8ae-bae41284141c.png"> -->
+<img width="298" alt="스크린샷 2022-03-01 오후 10 32 36" src="https://user-images.githubusercontent.com/77976233/156178457-c87db6bd-9e60-4208-ad30-87006f68eb97.png">
 
 # Coding Convention
 
