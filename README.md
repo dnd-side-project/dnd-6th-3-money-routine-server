@@ -1,6 +1,43 @@
-# dnd-6th-3-money-routine-server
-<!-- <img width="282" alt="스크린샷 2022-03-01 오후 10 31 09" src="https://user-images.githubusercontent.com/77976233/156178542-7067f4d5-0586-4459-b8ae-bae41284141c.png"> -->
-<img width="298" alt="스크린샷 2022-03-01 오후 10 32 36" src="https://user-images.githubusercontent.com/77976233/156178457-c87db6bd-9e60-4208-ad30-87006f68eb97.png">
+<h1 align="center">Welcome to 어땠어요?'s Backend-Server 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  </a>
+  <a href="https://github.com/vividswan/K.Cook-Server/blob/main/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/github/license/vividswan/K.Cook-Server" />
+  </a>
+</p>
+
+> 어땠어요? Back-End Server Project
+
+## API Docs
+
+### ✨ [어땠어요? Server Swagger](http://moneyroutinebeanstalk-env-1.eba-ptkdjtbj.ap-northeast-2.elasticbeanstalk.com/swagger-ui/#/)
+
+## 기술스택
+
+<p>
+  <img src="https://img.shields.io/badge/-SpringBoot-blue"/>&nbsp
+  <img src="https://img.shields.io/badge/-JPA-red"/>&nbsp
+  <img src="https://img.shields.io/badge/-MySQL-yellow"/>&nbsp
+  <img src="https://img.shields.io/badge/-JWT-blue"/>&nbsp
+  <img src="https://img.shields.io/badge/-AWS-orange"/>&nbsp
+  <img src="https://img.shields.io/badge/-Swagger-black"/>&nbsp
+  <img src="https://img.shields.io/badge/-SpringSecurity-green"/>&nbsp
+  <img src="https://img.shields.io/badge/-Querydsl-violet"/>&nbsp
+</p>
+
+## 개발환경
+
+
+- backend
+  - java11
+  - gradle
+  - spring-boot 2.5.6
+
+## 시스템 구성도
+
 
 # Coding Convention
 
