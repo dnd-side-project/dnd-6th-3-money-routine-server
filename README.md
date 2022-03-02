@@ -37,6 +37,7 @@
   - spring-boot 2.5.6
 
 ## 시스템 구성도
+![Untitled](https://user-images.githubusercontent.com/77976233/156360459-183a7a09-1322-4596-b651-6ae6ddd58f98.png)
 
 
 # Coding Convention
