@@ -103,7 +103,7 @@ public class GoalService {
             remainder -= goalCategory.getTotalExpense();
         }
 
-        if (goalState.equals(GoalState.SUCCESS) || goalState.equals(GoalState.PROCEED) && remainder < 0) goalState = GoalState.FAIL;
+        if (goalState.equals(GoalState.FAIL) || goalState.equals(GoalState.PROCEED) && remainder < 0) goalState = GoalState.FAIL;
 
         return GoalDetailDto.builder()
                 .goalId(goal.getId())
