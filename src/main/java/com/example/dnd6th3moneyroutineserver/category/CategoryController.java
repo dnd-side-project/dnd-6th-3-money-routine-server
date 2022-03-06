@@ -40,6 +40,7 @@ public class CategoryController {
 
         for (Category category : categoryList) {
             userCategoryList.add(CategoryDto.builder()
+                    .categoryId(category.getId())
                     .detail(category.getDetail())
                     .name(category.getName())
                     .isCustom(false)
@@ -48,6 +49,7 @@ public class CategoryController {
 
         for (CustomCategory customCategory : customCategoryList) {
             userCategoryList.add(CategoryDto.builder()
+                    .categoryId(customCategory.getId())
                     .detail(customCategory.getDetail())
                     .name(customCategory.getName())
                     .emoji(customCategory.getEmoji())
