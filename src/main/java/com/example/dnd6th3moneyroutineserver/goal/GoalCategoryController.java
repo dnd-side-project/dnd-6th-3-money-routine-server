@@ -38,9 +38,9 @@ public class GoalCategoryController {
     /**
      * GoalCategory 삭제
      */
-    @DeleteMapping
+    @DeleteMapping("/{goalCategoryId}")
     @ApiOperation(value = "목표 카테고리 제거", notes = "예산 수정 페이지의 분야 별 목표 카테고리 제거")
-    public ResponseEntity removeGoalCategory(@RequestBody Long goalCategoryId) {
+    public ResponseEntity removeGoalCategory(@PathVariable("goalCategoryId") Long goalCategoryId) {
         return new ResponseEntity(CustomResponse.response
                 (StatusCode.OK, ResponseMessage.REMOVE_GOAL_CATEGORY_SUCCESS, goalCategoryService.remove(goalCategoryId))
                 , HttpStatus.OK);
