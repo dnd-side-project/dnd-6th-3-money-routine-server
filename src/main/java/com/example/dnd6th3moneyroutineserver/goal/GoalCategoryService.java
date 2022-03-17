@@ -66,7 +66,7 @@ public class GoalCategoryService {
     @Transactional
     public boolean remove(Long goalCategoryId) {
         GoalCategory removeCategory = goalCategoryRepository.findById(goalCategoryId).orElseThrow();
-        if (removeCategory.getGoal().getUser().getId().equals(userService.currentUser())) {
+        if (!removeCategory.getGoal().getUser().getId().equals(userService.currentUser())) {
             goalCategoryRepository.delete(removeCategory);
             return true;
         }
