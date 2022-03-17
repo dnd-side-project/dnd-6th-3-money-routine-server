@@ -24,7 +24,8 @@ public class GoalCategory {
 
     private int totalExpense;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "GOAL_ID")
     private Goal goal;
 
