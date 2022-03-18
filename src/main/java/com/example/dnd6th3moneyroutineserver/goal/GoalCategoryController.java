@@ -67,9 +67,4 @@ public class GoalCategoryController {
                 CustomResponse.response(StatusCode.OK, ResponseMessage.DIRECT_ADD_SUCCESS, goalCategoryService.addPickedCategory(pickedCategoryRequest)), HttpStatus.CREATED
         );
     }
-
-//    @GetMapping("/test")
-//    public ResponseEntity testCategory(@RequestParam Long categoryId) {
-//        return new ResponseEntity(CustomResponse.response(StatusCode.OK, ResponseMessage.REMOVE_GOAL_CATEGORY_SUCCESS, goalCategoryRepository.findGoalAndUserById(categoryId).getGoal().getUser().getEmail()), HttpStatus.OK);
-//    }
 }
