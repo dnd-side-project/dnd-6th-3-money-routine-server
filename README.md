@@ -40,13 +40,17 @@
 ![Untitled](https://user-images.githubusercontent.com/77976233/156360459-183a7a09-1322-4596-b651-6ae6ddd58f98.png)
 
 
-# Coding Convention
+## DB diagram
+<img width="766" alt="image" src="https://user-images.githubusercontent.com/77976233/159117603-509f36e4-77e3-4b8f-822b-a4212db2b3d9.png">
+
+
+## Coding Convention
 
 - 패키지 구조는 DDD(Domain Driven Design) 아키텍처를 따른다
 - Java 코딩 컨벤션은 네이버 핵데이의 컨벤션을 따르도록 한다.
 - https://naver.github.io/hackday-conventions-java/
 
-# Git Convention
+## Git Convention
 
 **각 커밋 메시지는 다음과 같은 타입을 갖는다.**
 
@@ -59,7 +63,7 @@
 - chore : 빌드 부분 혹은 패키지 매니저 수정
 - rename : 파일, 폴더명 수정하거나 옮기는 경우
 
-# Branch Strategy
+## Branch Strategy
 
 **git flow 전략을 통해 개발한다.**
 
