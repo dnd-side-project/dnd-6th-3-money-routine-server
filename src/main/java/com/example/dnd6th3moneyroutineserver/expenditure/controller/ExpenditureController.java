@@ -50,7 +50,7 @@ public class ExpenditureController {
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                             @PathVariable Long categoryId, @PathVariable boolean isCustom) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_DETAILS_SUCCESS, expenditureService.monthlyDetails(startDate, endDate, categoryId, isCustom)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_DETAILS_SUCCESS, expenditureService.getMonthlyDetails(startDate, endDate, categoryId, isCustom)), HttpStatus.OK);
     }
 
     @GetMapping("/weekly/{currentDate}")

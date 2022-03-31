@@ -173,9 +173,9 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public List<Expenditure> monthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
+    public MonthlyDetailsDto getMonthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
         Long userId = userService.currentUser();
-        List<Expenditure> expenditureList = new ArrayList<>();
+        List<Expenditure> expenditureList;
         if (!isCustom){
             Category category = categoryRepository.getById(categoryId);
             expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCategory(startDate, endDate, userId, category);
@@ -185,7 +185,9 @@ public class ExpenditureService {
             expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, customCategory);
         }
 
-        return expenditureList;
+        return MonthlyDetailsDto.builder()
+                .expenditureList(expenditureList)
+                .build();
     }
 
     @Transactional
@@ -249,11 +251,18 @@ public class ExpenditureService {
 
             Goal goal = goalRepository.findByStartDateAndUserId(currentDate, userId);
 
-            monthExpenseInfoDtoList.add(MonthExpenseInfoDto.builder()
-                    .month(currentDate.getMonthValue())
-                    .budget(goal.getTotalBudget())
-                    .monthExpense(monthExpense.intValue())
-                    .build());
+            if (goal != null) {
+                monthExpenseInfoDtoList.add(MonthExpenseInfoDto.builder()
+                        .month(currentDate.getMonthValue())
+                        .budget(goal.getTotalBudget())
+                        .monthExpense(monthExpense.intValue())
+                        .build());
+            } else {
+                monthExpenseInfoDtoList.add(MonthExpenseInfoDto.builder()
+                        .month(currentDate.getMonthValue())
+                        .monthExpense(monthExpense.intValue())
+                        .build());
+            }
 
             currentDate = currentDate.minusMonths(1);
         }
