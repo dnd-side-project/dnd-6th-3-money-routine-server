@@ -133,7 +133,7 @@ public class ExpenditureService {
         Comparator<GoalCategoryInfoDto> comparator = new Comparator<GoalCategoryInfoDto>() {
             @Override
             public int compare(GoalCategoryInfoDto o1, GoalCategoryInfoDto o2) {
-                return (int) (o1.getExpense() - o2.getExpense());
+                return (int) (o2.getExpense() - o1.getExpense());
             }
         };
 
