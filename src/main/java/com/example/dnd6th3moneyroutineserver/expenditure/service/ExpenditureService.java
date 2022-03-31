@@ -127,7 +127,8 @@ public class ExpenditureService {
         }
 
         for (GoalCategoryInfoDto gci : goalCategoryInfoDtoList) {
-            gci.setPercentage(gci.getExpense()/totalExpense * 100);
+            double per = (gci.getExpense()/(float) totalExpense) * 100;
+            gci.setPercentage(Math.round(per*100) / 100.0);
         }
 
         Comparator<GoalCategoryInfoDto> comparator = new Comparator<GoalCategoryInfoDto>() {
