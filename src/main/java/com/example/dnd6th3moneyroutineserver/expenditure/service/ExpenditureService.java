@@ -173,7 +173,7 @@ public class ExpenditureService {
     }
 
     @Transactional
-    public MonthlyDetailsDto getMonthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
+    public Map<LocalDate, List<MonthlyDetailsDto>> getMonthlyDetails(LocalDate startDate, LocalDate endDate, Long categoryId, boolean isCustom) {
         Long userId = userService.currentUser();
         List<Expenditure> expenditureList;
         if (!isCustom){
@@ -185,9 +185,18 @@ public class ExpenditureService {
             expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, customCategory);
         }
 
-        return MonthlyDetailsDto.builder()
-                .expenditureList(expenditureList)
-                .build();
+        Map<LocalDate, List<MonthlyDetailsDto>> monthlyDetailsDtoMap = new HashMap<>();
+
+        for (Expenditure exp: expenditureList) {
+            if (monthlyDetailsDtoMap.containsKey(exp.getDate())) {
+                monthlyDetailsDtoMap.get(exp.getDate()).add(new MonthlyDetailsDto(exp.getExpenseDetail(), exp.getExpense()));
+            } else {
+                List<MonthlyDetailsDto> monthlyDetailsDtoList = new ArrayList<>();
+                monthlyDetailsDtoList.add(new MonthlyDetailsDto(exp.getExpenseDetail(), exp.getExpense()));
+                monthlyDetailsDtoMap.put(exp.getDate(), monthlyDetailsDtoList);
+            }
+        }
+        return monthlyDetailsDtoMap;
     }
 
     @Transactional
