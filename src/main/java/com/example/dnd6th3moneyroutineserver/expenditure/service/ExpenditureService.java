@@ -104,6 +104,10 @@ public class ExpenditureService {
                 expenditureList = expenditureRepository.findAllByDateBetweenAndUserIdAndCustomCategory(startDate, endDate, userId, gc.getCustomCategory());
             }
 
+            if (expenditureList.size() == 0) {
+                continue;
+            }
+
             //3-1. 지출 내역을 순회하면서 지출의 합을 구한다.
             Long categoryExpenseSum = 0L;
             List<WeeklyExpenditureDetailDto> weeklyExpenditureDetailDtoList= new ArrayList<>();
@@ -188,9 +192,9 @@ public class ExpenditureService {
     public WeeklyTendencyResponseDto getWeeklyTendency(LocalDate currentDate) {
 
         Long userId = userService.currentUser();
-        Goal goal = goalRepository.findByStartDateAndUserId(LocalDate.now(), userId);
+        Goal goal = goalRepository.findByStartDateAndUserId(LocalDate.now().withDayOfMonth(1), userId);
 
-        while (!currentDate.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
+        while (!currentDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             currentDate = currentDate.minusDays(1);
         }
 
@@ -218,7 +222,10 @@ public class ExpenditureService {
 
         Collections.reverse(weekExpenseInfoDtoList);
 
-        return new WeeklyTendencyResponseDto(goal.getTotalBudget()/weekExpenseInfoDtoList.size(), weekExpenseInfoDtoList);
+        return WeeklyTendencyResponseDto.builder()
+                .recommendExpense(goal.getTotalBudget() / weekExpenseInfoDtoList.size())
+                .weekExpenseInfoDtoList(weekExpenseInfoDtoList)
+                .build();
     }
 
     @Transactional

@@ -5,7 +5,6 @@ import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.expenditure.service.ExpenditureService;
 import com.example.dnd6th3moneyroutineserver.expenditure.dto.ExpenditureWriteDto;
-import com.example.dnd6th3moneyroutineserver.expenditure.dto.StatisticsRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
