@@ -140,11 +140,19 @@ public class ExpenditureService {
 
         Collections.sort(goalCategoryInfoDtoList, comparator);
 
-        return StatisticsResponseDto.builder()
-                .topCategory(goalCategoryInfoDtoList.get(0).getCategoryName())
-                .totalExpense(totalExpense)
-                .goalCategoryInfoDtoList(goalCategoryInfoDtoList)
-                .build();
+        if (goalCategoryInfoDtoList.size() == 0) {
+            return StatisticsResponseDto.builder()
+                    .totalExpense(totalExpense)
+                    .goalCategoryInfoDtoList(goalCategoryInfoDtoList)
+                    .build();
+        }
+        else {
+            return StatisticsResponseDto.builder()
+                    .topCategory(goalCategoryInfoDtoList.get(0).getCategoryName())
+                    .totalExpense(totalExpense)
+                    .goalCategoryInfoDtoList(goalCategoryInfoDtoList)
+                    .build();
+        }
 
         //StatisticsResponseDto
             //A.최다 지출 분야
