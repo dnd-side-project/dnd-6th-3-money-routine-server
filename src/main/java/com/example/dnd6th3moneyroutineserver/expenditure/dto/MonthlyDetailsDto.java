@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyTendencyResponseDto {
-    List<MonthExpenseInfoDto> monthExpenseInfoDtoList;
+public class MonthlyDetailsDto {
+    private String expenseDetail;
+    private Long expense;
 }

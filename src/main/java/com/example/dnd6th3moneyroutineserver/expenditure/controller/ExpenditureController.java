@@ -5,7 +5,6 @@ import com.example.dnd6th3moneyroutineserver.common.ResponseMessage;
 import com.example.dnd6th3moneyroutineserver.common.StatusCode;
 import com.example.dnd6th3moneyroutineserver.expenditure.service.ExpenditureService;
 import com.example.dnd6th3moneyroutineserver.expenditure.dto.ExpenditureWriteDto;
-import com.example.dnd6th3moneyroutineserver.expenditure.dto.StatisticsRequestDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,7 +50,7 @@ public class ExpenditureController {
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                             @PathVariable Long categoryId, @PathVariable boolean isCustom) {
         return new ResponseEntity(CustomResponse
-                .response(StatusCode.OK, ResponseMessage.MONTHLY_DETAILS_SUCCESS, expenditureService.monthlyDetails(startDate, endDate, categoryId, isCustom)), HttpStatus.OK);
+                .response(StatusCode.OK, ResponseMessage.MONTHLY_DETAILS_SUCCESS, expenditureService.getMonthlyDetails(startDate, endDate, categoryId, isCustom)), HttpStatus.OK);
     }
 
     @GetMapping("/weekly/{currentDate}")

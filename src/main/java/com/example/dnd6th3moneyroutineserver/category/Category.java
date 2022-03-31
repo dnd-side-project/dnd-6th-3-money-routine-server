@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Builder
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Category {
